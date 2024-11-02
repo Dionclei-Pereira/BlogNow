@@ -1,0 +1,130 @@
+﻿body {
+    background-color: #36454F;
+    color: lightgray;
+}
+
+
+.like-count {
+    margin: 10px 10px 10px 0;
+    padding: 10px;
+    display: inline-block;
+}
+
+.user {
+    color: red;
+    text-decoration: none;
+}
+.user:hover{
+    color: red;
+    
+}
+
+.Post{
+    height: auto;
+    width: 300px;
+    padding: 0 0px 0px 10px;
+    border: solid;
+    border-color: palevioletred;
+}
+
+.heart {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: gray;
+    transform: rotate(-45deg);
+    margin: 0px;
+    border: 0px;
+    cursor: pointer;
+}
+
+    .heart::before,
+    .heart::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: gray;
+        border-radius: 50%;
+    }
+
+    .heart::before {
+        top: -10px;
+        left: 0;
+    }
+
+    .heart::after {
+        bottom: 0;
+        right: -10px;
+    }
+
+    .heart::before,
+    .heart::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: gray;
+        border-radius: 50%;
+    }
+
+    .heart::before {
+        top: -10px;
+        left: 0;
+    }
+
+    .heart::after {
+        bottom: 0;
+        right: -10px;
+    }
+
+.heart-liked {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    transform: rotate(-45deg);
+    margin: 0px;
+    border: 0px;
+    cursor: pointer;
+}
+
+    .heart-liked::before,
+    .heart-liked::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border-radius: 50%;
+    }
+
+    .heart-liked::before {
+        top: -10px;
+        left: 0;
+    }
+
+    .heart-liked::after {
+        bottom: 0;
+        right: -10px;
+    }
+
+    .heart-liked::before,
+    .heart-liked::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border-radius: 50%;
+    }
+
+    .heart-liked::before {
+        top: -10px;
+        left: 0;
+    }
+
+    .heart-liked::after {
+        bottom: 0;
+        right: -10px;
+    }

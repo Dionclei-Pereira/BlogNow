@@ -1,0 +1,22 @@
+﻿@model RegisterViewModel
+<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+<form asp-action="Register" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div>
+        <label asp-for="NickName"></label>
+        <input asp-for="NickName" />
+    </div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+    </div>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
+    </div>
+    <div>
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" type="password" />
+    </div>
+    <button type="submit">Register</button>
+</form>
