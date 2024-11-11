@@ -15,7 +15,7 @@
 
         <div class="Post">
             <div class="User">
-                <a class="user" asp-action="User" asp-route-id="@post.Owner">@Html.DisplayFor(modelItem => post.Owner)</a>
+                <a class="user" asp-action="UserView" asp-route-id="@post.Owner">@Html.DisplayFor(modelItem => post.Owner)</a>
             </div>
             <div class="Comment">
                 <p>@Html.DisplayFor(ModelItem => post.Message)</p>

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogMVC.Controllers {
     public class MainController : Controller {
@@ -20,25 +22,38 @@ namespace BlogMVC.Controllers {
             _userManager = userManager;
         }
         public async Task<IActionResult> Index() {
-            await _seed.SeedAsync(_userManager);
-            List<Post> posts = _context.Posts.OrderByDescending(obj => obj.Date).ToList();
-            foreach (Post post in posts)
+            if (User.Identity.IsAuthenticated)
             {
-                post.likedpeople = await _userService.GetLikedPeople(post);
+                User user = await _userService.GetUserByMail(User.Identity.Name);
+                ViewData["UserName"] = user.NickName;
             }
+            await _seed.SeedAsync(_userManager);
+            List<Post> posts = _context.Posts.Include(p => p.likedpeople).OrderByDescending(obj => obj.Date).ToList();
             return View(posts);
         }
-        public async Task<IActionResult> User(string? id) {
-            return View(await _userService.GetUser(id));
+        public async Task<IActionResult> UserView(string? id) {
+            try
+            {
+                return View(await _userService.GetUser(id));
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
+            }
         }
+
+        public async Task<IActionResult> Error(string message)
+        {
+            var viewmodel = new ErrorViewModel { Message = message, RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
+            return View(viewmodel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> LikePost(int postID, string email) {
             if (email == null) {
                 return Json(new {error = "You need to be logged in to like posts" });
             }
-            int postId = postID;
-            var post = await _context.Posts.FindAsync(postId);
-            post.likedpeople = await _userService.GetLikedPeople(post);
+            var post = await _context.Posts.Include(p => p.likedpeople).FirstOrDefaultAsync(p => p.Id == postID);
             if (post != null) {
                 if (post.likedpeople.FirstOrDefault(x => x.PersonalEmail == email) != null) {
                     post.Likes--;

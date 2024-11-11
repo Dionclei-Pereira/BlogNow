@@ -30,6 +30,7 @@
                     @{
                         if (User.Identity.IsAuthenticated)
                         {
+                            <a class="nav-link text-light text-end" asp-action="UserView" asp-route-id="@ViewData["UserName"]" asp-controller="Main">@ViewData["UserName"]</a>
                             <a class="nav-link text-light text-end" asp-action="Logout" asp-controller="Account">Logout</a>
                         }
                         else
