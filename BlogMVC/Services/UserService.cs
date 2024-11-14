@@ -16,6 +16,10 @@ namespace BlogMVC.Services {
             }
             return user;
         }
+
+        public async Task<Post> GetPostById(int id) {
+            return await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+        }
         public async Task<User> GetUserByMail(string email) {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
             return user;

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogMVC.Migrations
 {
     [DbContext(typeof(BlogNowContext))]
-    [Migration("20241031142315_LikeSystemAndLogin")]
-    partial class LikeSystemAndLogin
+    [Migration("20241114111647_Full")]
+    partial class Full
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

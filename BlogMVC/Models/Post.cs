@@ -11,6 +11,7 @@ namespace BlogMVC.Models {
         public DateTime Date { get; set; }
         public List<LikeModel> likedpeople { get; set; } = new List<LikeModel>();
         public int Id { get; set; }
+        public string UserId { get; set; }
         public Post(string owner, string message, DateTime date) {
             Owner = owner;
             Message = message;

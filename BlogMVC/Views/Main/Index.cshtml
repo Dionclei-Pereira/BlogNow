@@ -4,6 +4,7 @@
     var Email = User.Identity.Name;
 }
 <h1>@ViewData["Title"]</h1>
+<a asp-action="Create" asp-controller="Main" class="sidebar">Create a Post</a>
 <html>
 <head>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
@@ -12,7 +13,6 @@
 <body>
     @foreach (var post in Model)
     {
-
         <div class="Post">
             <div class="User">
                 <a class="user" asp-action="UserView" asp-route-id="@post.Owner">@Html.DisplayFor(modelItem => post.Owner)</a>
@@ -41,6 +41,7 @@
         $(document).ready(function () {
             $('.heart, .heart-liked').click(function () {
                 var postId = $(this).data('postid');
+                var token = $('input[name="__RequestVerificationToken"]').val();
                 $.ajax({
                     type: 'POST',
                     url: '/Main/LikePost',

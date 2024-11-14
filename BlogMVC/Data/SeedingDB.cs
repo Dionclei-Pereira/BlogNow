@@ -26,18 +26,14 @@ namespace BlogMVC.Data {
             if (user != null) {
                 return;
             }
-            Comment c1 = new Comment("I think that I should do this too!! I love this.", new DateTime(2024, 02, 13));
-            List<Comment> comments = new List<Comment>();
-            comments.Add(c1);
             List<Post> posts = new List<Post>();
-
-            Post p1 = new Post("Alex Phoenix", "Hello guys", new DateTime(2024, 02, 12));
-            Post p2 = new Post("Alex Phoenix", "I love cats", new DateTime(2018, 03, 15));
-            Post p3 = new Post("Alex Phoenix", "Wanted... Dead or Alive!!!! I love Van Halen", new DateTime(2019, 12, 12));
+            Post p1 = new Post("Alex Phoenix", "Hello guys, I played eletric guitar today", new DateTime(2024, 02, 12, 4, 24, 12));
+            Post p2 = new Post("Alex Phoenix", "I love cats, they are so awesome", new DateTime(2024, 03, 15, 13, 44, 32));
+            Post p3 = new Post("Alex Phoenix", "Wanted... Dead or Alive!!!! I love Van Halen", new DateTime(2024, 11, 11, 21, 51, 42));
                 
-            Post p4 = new Post("Beatriz Pereira", "My name is Beatriz Pereira and I play Counter-Strike", new DateTime(2024, 09, 25));
+            Post p4 = new Post("Beatriz Pereira", "My name is Beatriz Pereira and I play Counter-Strike", new DateTime(2024, 09, 25, 12, 11, 14));
 
-            Post p5 = new Post("Joseph Adam", "Free fire is the worst game ever", new DateTime(2024, 09, 25));
+            Post p5 = new Post("Joseph Adam", "I Was at the mall today", new DateTime(2024, 09, 25, 16, 12, 32));
 
             posts.Add(p1);
             posts.Add(p2);

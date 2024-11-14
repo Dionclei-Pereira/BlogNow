@@ -5,6 +5,7 @@
     {
         ViewData["Title"] = Model.NickName;
         Email = User.Identity.Name;
+        Model.Posts = Model.Posts.OrderByDescending(d => d.Date).ToList();
     }
 }
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -36,6 +37,14 @@
                             <button class="heart" data-postid="@post.Id"></button>
                         }
                         <p class="like-count">Likes: <span id="likes-count-@post.Id">@post.Likes</span></p>
+                        @if (Model.Email == User.Identity.Name) {
+                            <form action="@Url.Action("DeletePost", "Main")" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="owner" value="@Email" />
+                                <input type="hidden" name="id" value="@post.Id" />
+                                <button class="delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                            }
                     </div>
                     <p>@Html.DisplayFor(ModelItem => post.Date)</p>
                 </div>

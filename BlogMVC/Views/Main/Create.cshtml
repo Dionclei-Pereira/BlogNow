@@ -1,0 +1,21 @@
+﻿@model BlogMVC.Models.ViewModels.CreateViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head></head>
+    <body>
+        <form action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="All" class="text-danger"></div>
+            <div>
+                <p asp-for="Message"></p>
+                <textarea asp-for="Message"></textarea>
+            </div>
+            <button type="submit">Post</button>
+        </form>
+    </body>
+</html>

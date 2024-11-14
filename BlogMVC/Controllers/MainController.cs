@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using BlogMVC.Models.ViewModels;
 
 namespace BlogMVC.Controllers {
     public class MainController : Controller {
@@ -22,30 +23,80 @@ namespace BlogMVC.Controllers {
             _userManager = userManager;
         }
         public async Task<IActionResult> Index() {
+            Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0";
+            Response.Headers["Pragma"] = "no-cache";
+            Response.Headers["Expires"] = "-1";
             if (User.Identity.IsAuthenticated)
             {
                 User user = await _userService.GetUserByMail(User.Identity.Name);
+                if (user == null) {
+                    return RedirectToAction("Logout", "Account");
+                }
                 ViewData["UserName"] = user.NickName;
             }
             await _seed.SeedAsync(_userManager);
             List<Post> posts = _context.Posts.Include(p => p.likedpeople).OrderByDescending(obj => obj.Date).ToList();
             return View(posts);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePost(int? id, string? owner) {
+            Post post = await _userService.GetPostById(id.Value);
+            _context.Posts.Remove(post);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            
+        }
         public async Task<IActionResult> UserView(string? id) {
             try
             {
+                if (User.Identity.IsAuthenticated) {
+                    User user = await _userService.GetUserByMail(User.Identity.Name);
+                    if (user == null) {
+                        return RedirectToAction("Logout", "Account");
+                    }
+                    ViewData["UserName"] = user.NickName;
+                }
                 return View(await _userService.GetUser(id));
             }
             catch (Exception ex)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id not found" });
+                return RedirectToAction(nameof(Error), new { message = ex.Message });
             }
         }
-
-        public async Task<IActionResult> Error(string message)
-        {
+        public async Task<IActionResult> Error(string message) {
             var viewmodel = new ErrorViewModel { Message = message, RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
             return View(viewmodel);
+        }
+        public async Task<IActionResult> Create() {
+            CreateViewModel viewModel = new CreateViewModel { Date = DateTime.Now, Owner = null };
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAsync(CreateViewModel model) {
+            string name = null;
+            if (User.Identity.IsAuthenticated) {
+                User user = await _userService.GetUserByMail(User.Identity.Name);
+                name = user.NickName;
+            }
+            model.Date = DateTime.Now;
+            model.Owner = name; 
+            ViewData["UserName"] = name;
+            if (ModelState.IsValid) {
+                Post post = new Post(model.Owner, model.Message, model.Date);
+                User user = await _userService.GetUser(model.Owner);
+                post.UserId = user.Id;
+                _context.Posts.Add(post);
+                user.Posts.Add(post);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+
         }
 
         [HttpPost]
