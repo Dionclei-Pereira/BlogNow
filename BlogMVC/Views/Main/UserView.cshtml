@@ -11,7 +11,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
     <h1>@ViewData["Title"]</h1>
@@ -54,29 +53,9 @@
         }
     }
     <script>
-        var email = '@Email';
-        $(document).ready(function () {
-            $('.heart, .heart-liked').click(function () {
-                var postId = $(this).data('postid');
-                $.ajax({
-                    type: 'POST',
-                    url: '/Main/LikePost',
-                    data: { postId: postId, email: email },
-                    success: function (response) {
-                        if (response.error != null) {
-                            alert(response.error);
-                            return;
-                        }
-                        $('[data-postid= "' + postId + '"]').attr('class', response.status);
-                        $('#likes-count-' + postId).text(response.likes);
-                    },
-                    error: function () {
-                        alert('Error');
-                    }
-                });
-            });
-        });
-    </script>
+        window.email = "@User.Identity.Name";
+    </script>s
+    <script src="~/js/like.js"></script>
     </body>
 </html>
 

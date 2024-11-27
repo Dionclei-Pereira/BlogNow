@@ -101,7 +101,7 @@ namespace BlogMVC.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> LikePost(int postID, string email) {
-            if (email == null) {
+            if (email == null || email == "@Email" || email == "undefined") {
                 return Json(new {error = "You need to be logged in to like posts" });
             }
             var post = await _context.Posts.Include(p => p.likedpeople).FirstOrDefaultAsync(p => p.Id == postID);

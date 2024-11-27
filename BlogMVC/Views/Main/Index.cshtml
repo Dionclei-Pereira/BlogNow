@@ -1,14 +1,12 @@
 ﻿@model IEnumerable<BlogMVC.Models.Post>
 @{
     ViewData["Title"] = "BlogNow";
-    var Email = User.Identity.Name;
 }
 <h1>@ViewData["Title"]</h1>
 <a asp-action="Create" asp-controller="Main" class="sidebar">Create a Post</a>
 <html>
 <head>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     @foreach (var post in Model)
@@ -37,29 +35,8 @@
         <br />
     }
     <script>
-        var email = '@Email';
-        $(document).ready(function () {
-            $('.heart, .heart-liked').click(function () {
-                var postId = $(this).data('postid');
-                var token = $('input[name="__RequestVerificationToken"]').val();
-                $.ajax({
-                    type: 'POST',
-                    url: '/Main/LikePost',
-                    data: { postId: postId, email: email},
-                    success: function (response) {
-                        if (response.error != null) {
-                            alert(response.error);
-                            return;
-                        }
-                        $('[data-postid= "'+postId+'"]').attr('class', response.status);
-                        $('#likes-count-' + postId).text(response.likes);
-                    },
-                    error: function () {
-                        alert('Error');
-                    }
-                });
-            });
-        });
+        window.email = "@User.Identity.Name";
     </script>
+    <script src="~/js/like.js"></script>
 </body>
 </html>
