@@ -149,7 +149,7 @@ namespace BlogMVC.Controllers {
                 User user = await _userService.GetUserWithFollow(email);
                 User userTarget = await _userService.GetUserWithFollow(target);
                 if (user != null && userTarget != null) {
-                    if (await _context.Followed.FirstOrDefaultAsync(f => f.OwnerId == target) == null) {
+                    if (await _context.Following.FirstOrDefaultAsync(f => f.OwnerId == target && f.UserId == user.Id) == null) {
                         user.Following.Add(new FollowingModel(target));
                         userTarget.Followed.Add(new FollowedModel(email));
                         follow++;
