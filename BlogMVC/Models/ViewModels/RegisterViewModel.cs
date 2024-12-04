@@ -6,7 +6,7 @@ public class RegisterViewModel {
     [EmailAddress(ErrorMessage = "Enter a valid email")]
     public string Email { get; set; }
     [Required(ErrorMessage = "{0} required")]
-    [StringLength(10, MinimumLength = 3,ErrorMessage = "NickName Size must be between {1} and {2} characters")]
+    [StringLength(20, MinimumLength = 3,ErrorMessage = "Name Size must be between {1} and {2} characters")]
     public string NickName { get; set; }
     [Required(ErrorMessage = "{0} required")]
     [DataType(DataType.Password)]

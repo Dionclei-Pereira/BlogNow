@@ -1,20 +1,29 @@
 ﻿@model LoginViewModel
-
-<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/account.css" asp-append-version="true" />
+<div class="container">
 <form asp-action="Login" method="post">
     <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
+        <label asp-for="Email" class="text"></label>
+        <br />
+        <input asp-for="Email" class="box"/>
         <span asp-validation-for="Email"></span>
     </div>
+        <br />
     <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type= "password" />
+            <label asp-for="Password" class="text"></label>
+            <br />
+            <input asp-for="Password" type="password" class="box" />
         <span asp-validation-for="Password"></span>
     </div>
+        <br />
     <div>
-        <input asp-for="RememberMe" />
+        <input class="text" asp-for="RememberMe" />
         <label asp-for="RememberMe">Remember-me</label>
     </div>
-    <button type = "submit">Login</button >
+        <br />
+        <button class="btn-custom" type="submit">Login</button>
 </form>
+</div>

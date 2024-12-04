@@ -11,11 +11,12 @@
 }
 
 .user {
-    color: red;
+    color: plum;
     text-decoration: none;
 }
 .user:hover{
-    color: red;
+    color: blueviolet;
+    text-decoration: underline;
     
 }
 
@@ -24,13 +25,15 @@
     width: 300px;
     padding: 0 0px 0px 10px;
     border: solid;
-    border-color: palevioletred;
+    border-color: mediumpurple;
 }
+
+
 
 .heart {
     position: relative;
-    width: 20px;
-    height: 20px;
+    width: 10px;
+    height: 10px;
     background-color: gray;
     transform: rotate(-45deg);
     margin: 0px;
@@ -42,47 +45,47 @@
     .heart::after {
         content: '';
         position: absolute;
-        width: 20px;
-        height: 20px;
+        width: 10px;
+        height: 10px;
         background-color: gray;
         border-radius: 50%;
     }
 
     .heart::before {
-        top: -10px;
+        top: -5px;
         left: 0;
     }
 
     .heart::after {
         bottom: 0;
-        right: -10px;
+        right: -5px;
     }
 
     .heart::before,
     .heart::after {
         content: '';
         position: absolute;
-        width: 20px;
-        height: 20px;
+        width: 10px;
+        height: 10px;
         background-color: gray;
         border-radius: 50%;
     }
 
     .heart::before {
-        top: -10px;
+        top: -5px;
         left: 0;
     }
 
     .heart::after {
         bottom: 0;
-        right: -10px;
+        right: -3px;
     }
 
 .heart-liked {
     position: relative;
-    width: 20px;
-    height: 20px;
-    background-color: red;
+    width: 10px;
+    height: 10px;
+    background-color: mediumpurple;
     transform: rotate(-45deg);
     margin: 0px;
     border: 0px;
@@ -93,38 +96,38 @@
     .heart-liked::after {
         content: '';
         position: absolute;
-        width: 20px;
-        height: 20px;
-        background-color: red;
+        width: 10px;
+        height: 10px;
+        background-color: mediumpurple;
         border-radius: 50%;
     }
 
     .heart-liked::before {
-        top: -10px;
+        top: -5px;
         left: 0;
     }
 
     .heart-liked::after {
         bottom: 0;
-        right: -10px;
+        right: -5px;
     }
 
     .heart-liked::before,
     .heart-liked::after {
         content: '';
         position: absolute;
-        width: 20px;
-        height: 20px;
-        background-color: red;
+        width: 10px;
+        height: 10px;
+        background-color: mediumpurple;
         border-radius: 50%;
     }
 
     .heart-liked::before {
-        top: -10px;
+        top: -5px;
         left: 0;
     }
 
     .heart-liked::after {
         bottom: 0;
-        right: -10px;
+        right: -3px;
     }

@@ -14,8 +14,10 @@ public class AccountController : Controller {
         _signInManager = signInManager;
     }
 
+    public async Task<IActionResult> Index() => View();
+
     [HttpGet]
-    public IActionResult Login() => View();
+    public async Task<IActionResult> Login() => View();
 
     [HttpPost]
     [ValidateAntiForgeryToken]

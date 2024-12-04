@@ -1,22 +1,36 @@
 ﻿@model RegisterViewModel
-<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
-<form asp-action="Register" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div>
-        <label asp-for="NickName"></label>
-        <input asp-for="NickName" />
-    </div>
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-    </div>
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" />
-    </div>
-    <div>
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" type="password" />
-    </div>
-    <button type="submit">Register</button>
-</form>
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/account.css" asp-append-version="true" />
+<div class="container">
+    <form asp-action="Register" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <br />
+        <div>
+            <p class="text">Name</p>
+            <br />
+            <input class="box" asp-for="NickName" />
+        </div>
+        <br />
+        <div>
+            <label class="text" asp-for="Email"></label>
+            <br />
+            <input class="box" asp-for="Email" />
+        </div>
+        <br />
+        <div>
+            <label class="text" asp-for="Password"></label>
+            <br />
+            <input class="box" asp-for="Password" type="password" />
+        </div>
+        <br />
+        <div>
+            <label class="text" asp-for="ConfirmPassword"></label>
+            <br />
+            <input class="box" asp-for="ConfirmPassword" type="password" />
+        </div>
+        <br />
+        <button class="btn-custom" type="submit">Register</button>
+    </form>
+</div>

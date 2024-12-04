@@ -71,6 +71,9 @@ namespace BlogMVC.Controllers {
             return View(viewmodel);
         }
         public async Task<IActionResult> Create() {
+            if (!User.Identity.IsAuthenticated) {
+                return RedirectToAction("Index", "Account");
+            }
             CreateViewModel viewModel = new CreateViewModel { Date = DateTime.Now, Owner = null };
             return View(viewModel);
         }
@@ -98,6 +101,13 @@ namespace BlogMVC.Controllers {
             }
             return View(model);
 
+        }
+
+        public async Task<IActionResult> VerifyLogin() {
+            if (User.Identity.IsAuthenticated) {
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index", "Account");
         }
 
         [HttpPost]

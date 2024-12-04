@@ -3,7 +3,9 @@
     ViewData["Title"] = "BlogNow";
 }
 <h1>@ViewData["Title"]</h1>
-<a asp-action="Create" asp-controller="Main" class="sidebar">Create a Post</a>
+@if(User.Identity.IsAuthenticated){
+    <a asp-action="Create" asp-controller="Main" class="sidebar">Create a Post</a>
+}
 <html>
 <head>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
