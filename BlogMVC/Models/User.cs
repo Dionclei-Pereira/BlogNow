@@ -8,6 +8,7 @@ namespace BlogMVC.Models {
 
         public List<Post>? Posts { get; set; }
         public string NickName { get; set; }
-
+        public List<FollowingModel>? Following { get; set; } = new List<FollowingModel>();
+        public List<FollowedModel>? Followed { get; set; } = new List<FollowedModel>();
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using BlogMVC.Models.ViewModels;
+using BlogMVC.Models.Exceptions;
 
 namespace BlogMVC.Controllers {
     public class MainController : Controller {
@@ -58,7 +59,7 @@ namespace BlogMVC.Controllers {
                     }
                     ViewData["UserName"] = user.NickName;
                 }
-                return View(await _userService.GetUser(id));
+                return View(await _userService.GetUserWithAll(id));
             }
             catch (Exception ex)
             {
@@ -88,7 +89,7 @@ namespace BlogMVC.Controllers {
             ViewData["UserName"] = name;
             if (ModelState.IsValid) {
                 Post post = new Post(model.Owner, model.Message, model.Date);
-                User user = await _userService.GetUser(model.Owner);
+                User user = await _userService.GetUserWithPosts(model.Owner);
                 post.UserId = user.Id;
                 _context.Posts.Add(post);
                 user.Posts.Add(post);
@@ -104,6 +105,9 @@ namespace BlogMVC.Controllers {
             if (email == null || email == "@Email" || email == "undefined") {
                 return Json(new {error = "You need to be logged in to like posts" });
             }
+            if (email != User.Identity.Name) {
+                return RedirectToAction(nameof(Error), new { message = "Bad Request" });
+            }
             var post = await _context.Posts.Include(p => p.likedpeople).FirstOrDefaultAsync(p => p.Id == postID);
             if (post != null) {
                 if (post.likedpeople.FirstOrDefault(x => x.PersonalEmail == email) != null) {
@@ -118,6 +122,38 @@ namespace BlogMVC.Controllers {
                 return Json(new { likes = post.Likes, status = "heart-liked" });
             }
             return NotFound();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Follow(string email, string target, int follow) {
+            if (email != User.Identity.Name || target == email) {
+                return RedirectToAction(nameof(Error), new { message = "Bad Request" });
+            }
+            if (email == null || email == "@Email" || email == "undefined") {
+                return Json(new { error = "You need to be logged in to like posts" });
+            }
+            if (target == null) {
+                return Json(new { error = "User was not found" });
+            }
+            try {
+                User user = await _userService.GetUserWithFollow(email);
+                User userTarget = await _userService.GetUserWithFollow(target);
+                if (user != null && userTarget != null) {
+                    if (await _context.Followed.FirstOrDefaultAsync(f => f.OwnerId == target) == null) {
+                        user.Following.Add(new FollowingModel(target));
+                        userTarget.Followed.Add(new FollowedModel(email));
+                        follow++;
+                    } else {
+                        userTarget.Followed.Remove(userTarget.Followed.FirstOrDefault(x => x.OwnerId == email));
+                        user.Following.Remove(user.Following.FirstOrDefault(x => x.OwnerId == target));
+                        follow--;
+                    }
+                }
+                await _context.SaveChangesAsync();
+                return Json(new { followers = follow });
+            } catch (Exception ex) {
+                return RedirectToAction(nameof(Error), new { message = ex.Message });
+            }
         }
     }
 }

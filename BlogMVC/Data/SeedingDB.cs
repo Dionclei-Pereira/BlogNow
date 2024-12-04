@@ -42,8 +42,8 @@ namespace BlogMVC.Data {
                 UserName = "AlexPhoenix@gmail.com",
                 Email = "AlexPhoenix@gmail.com",
                 Posts = posts,
-                NickName = "Alex Phoenix"
-                
+                NickName = "Alex Phoenix",
+
             };
             var error = await userManager.CreateAsync(user, "12345aA2!");
 
@@ -53,7 +53,7 @@ namespace BlogMVC.Data {
                 UserName = "Beah2323@gmail.com",
                 Email = "Beah2323@gmail.com",
                 Posts = posts,
-                NickName = "Beatriz Pereira"
+                NickName = "Beatriz Pereira",
             };
             await userManager.CreateAsync(user, "Beah2002!");
             posts = new List<Post>();
@@ -62,7 +62,7 @@ namespace BlogMVC.Data {
                 UserName = "Joseph231@gmail.com",
                 Email = "Joseph231@gmail.com",
                 Posts = posts,
-                NickName = "Joseph Adam"
+                NickName = "Joseph Adam",
             };
             await userManager.CreateAsync(user, "IloveDogs22!");
             await _context.SaveChangesAsync();

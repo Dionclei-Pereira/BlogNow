@@ -42,6 +42,48 @@ namespace BlogMVC.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("BlogMVC.Models.FollowedModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FollowedModel");
+                });
+
+            modelBuilder.Entity("BlogMVC.Models.FollowingModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FollowingModel");
+                });
+
             modelBuilder.Entity("BlogMVC.Models.LikeModel", b =>
                 {
                     b.Property<int>("Id")
@@ -83,6 +125,7 @@ namespace BlogMVC.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
@@ -312,6 +355,24 @@ namespace BlogMVC.Migrations
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("BlogMVC.Models.FollowedModel", b =>
+                {
+                    b.HasOne("BlogMVC.Models.User", null)
+                        .WithMany("Followed")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BlogMVC.Models.FollowingModel", b =>
+                {
+                    b.HasOne("BlogMVC.Models.User", null)
+                        .WithMany("Following")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BlogMVC.Models.LikeModel", b =>
                 {
                     b.HasOne("BlogMVC.Models.Post", null)
@@ -325,7 +386,9 @@ namespace BlogMVC.Migrations
                 {
                     b.HasOne("BlogMVC.Models.User", null)
                         .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -388,6 +451,10 @@ namespace BlogMVC.Migrations
 
             modelBuilder.Entity("BlogMVC.Models.User", b =>
                 {
+                    b.Navigation("Followed");
+
+                    b.Navigation("Following");
+
                     b.Navigation("Posts");
                 });
 #pragma warning restore 612, 618

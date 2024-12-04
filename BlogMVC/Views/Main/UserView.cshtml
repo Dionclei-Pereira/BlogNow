@@ -15,6 +15,15 @@
     <body>
     <h1>@ViewData["Title"]</h1>
     <h6>@Model.UserName</h6>
+    <p>Followers: 
+        <span class="follow-number">@Model.Followed.Count()</span>
+        @if (User.Identity.IsAuthenticated){
+            if (Model.Email != User.Identity.Name && User.Identity.Name != null)
+            {
+                <button class="follow-btn">Follow</button>
+            }
+        }
+    </p>
     <br />
     @if (Model.Posts != null)
     {
@@ -53,8 +62,38 @@
         }
     }
     <script>
+        //follow
+        document.addEventListener("DOMContentLoaded", () => {
+            const follow = document.querySelector(".follow-btn");
+            const value = document.querySelector(".follow-number");
+            follow.addEventListener("click", () => {
+                const params = new URLSearchParams();
+                params.append("email", "@User.Identity.Name");
+                params.append("target", "@Model.Email");
+                params.append("follow", value.textContent);
+                fetch("/Main/Follow", {
+                    method: "post",
+                    headers: {
+                        'Content-Type': "application/x-www-form-urlencoded"
+                    },
+                    body: params.toString()
+                }).then(response => response.json())
+                .then(response => {
+                    if (response.error) {
+                        alert(response.error);
+                        return;
+                    }
+                    value.textContent = response.followers;
+                }).catch(() => {
+                    alert("Error");
+                })
+            })
+        })
+
+
+        //
         window.email = "@User.Identity.Name";
-    </script>s
+    </script>
     <script src="~/js/like.js"></script>
     </body>
 </html>

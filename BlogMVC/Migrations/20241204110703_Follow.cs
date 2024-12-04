@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BlogMVC.Migrations
 {
-    public partial class Full : Migration
+    public partial class Follow : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -199,6 +199,52 @@ namespace BlogMVC.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "FollowedModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    OwnerId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FollowedModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FollowedModel_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "FollowingModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    OwnerId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FollowingModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FollowingModel_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
@@ -210,7 +256,7 @@ namespace BlogMVC.Migrations
                     Owner = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: true)
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -220,7 +266,8 @@ namespace BlogMVC.Migrations
                         name: "FK_Posts_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -312,6 +359,16 @@ namespace BlogMVC.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FollowedModel_UserId",
+                table: "FollowedModel",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FollowingModel_UserId",
+                table: "FollowingModel",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LikeModel_PostId",
                 table: "LikeModel",
                 column: "PostId");
@@ -341,6 +398,12 @@ namespace BlogMVC.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "FollowedModel");
+
+            migrationBuilder.DropTable(
+                name: "FollowingModel");
 
             migrationBuilder.DropTable(
                 name: "LikeModel");
