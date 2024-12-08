@@ -1,4 +1,5 @@
 using BlogMVC.Data;
+using BlogMVC.Interfaces;
 using BlogMVC.Models;
 using BlogMVC.Services;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +12,8 @@ builder.Services.AddControllersWithViews();
 var connection = "server=localhost;userid=root;password=12345678;database=blognow";
 builder.Services.AddDbContext<BlogNowContext>(options => options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
 builder.Services.AddScoped<SeedingDB>();
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFollowService, FollowService>();
 builder.Services.AddIdentity<User, IdentityRole>(options => {
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false; 

@@ -9,19 +9,24 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using BlogMVC.Models.ViewModels;
 using BlogMVC.Models.Exceptions;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Authorization;
+using BlogMVC.Interfaces;
 
 namespace BlogMVC.Controllers {
     public class MainController : Controller {
 
         readonly BlogNowContext _context;
-        readonly UserService _userService;
+        readonly IUserService _userService;
         readonly SeedingDB _seed;
         readonly UserManager<User> _userManager;
-        public MainController(SeedingDB seedingDB, BlogNowContext context, UserService userService,UserManager<User> userManager) {
+        readonly IFollowService _followService;
+        public MainController(IFollowService followService, SeedingDB seedingDB, BlogNowContext context, IUserService userService,UserManager<User> userManager) {
             _userService = userService;
             _seed = seedingDB;
             _context = context;
             _userManager = userManager;
+            _followService = followService;
         }
         public async Task<IActionResult> Index() {
             Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0";
@@ -114,6 +119,7 @@ namespace BlogMVC.Controllers {
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAsync(CreateViewModel model) {
             string name = null;
@@ -171,32 +177,26 @@ namespace BlogMVC.Controllers {
         [HttpPost]
         public async Task<IActionResult> Follow(string email, string target, int follow) {
             if (email != User?.Identity?.Name || target == email) {
-                return RedirectToAction(nameof(Error), new { message = "Bad Request" });
+                return RedirectToAction(nameof(Error), new { message = "Invalid request" });
             }
-            if (email == null || email == "@Email" || email == "undefined") {
-                return Json(new { error = "You need to be logged in to like posts" });
+            if (string.IsNullOrEmpty(email) || email == "@Email" || email == "undefined") {
+                return Json(new { error = "You need to be logged in to follow users" });
             }
-            if (target == null) {
-                return Json(new { error = "User was not found" });
+            if (string.IsNullOrEmpty(target)) {
+                return Json(new { error = "Target user was not found" });
             }
             try {
-                User user = await _userService.GetUserWithFollow(email);
-                User userTarget = await _userService.GetUserWithFollow(target);
-                if (user != null && userTarget != null) {
-                    if (await _context.Following.FirstOrDefaultAsync(f => f.OwnerId == target && f.UserId == user.Id) == null) {
-                        user.Following.Add(new FollowingModel(target));
-                        userTarget.Followed.Add(new FollowedModel(email));
-                        follow++;
-                    } else {
-                        userTarget.Followed.Remove(userTarget.Followed.FirstOrDefault(x => x.OwnerId == email));
-                        user.Following.Remove(user.Following.FirstOrDefault(x => x.OwnerId == target));
-                        follow--;
-                    }
+                int result = await _followService.ToggleFollowAsync(email, target);
+
+                if (result == 1) {
+                    follow++; 
+                } else if (result == -1) {
+                    follow--; 
                 }
-                await _context.SaveChangesAsync();
+
                 return Json(new { followers = follow });
             } catch (Exception ex) {
-                return RedirectToAction(nameof(Error), new { message = ex.Message });
+                return RedirectToAction(nameof(Error), new { message = "An unexpected error occurred" });
             }
         }
     }

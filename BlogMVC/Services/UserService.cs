@@ -1,11 +1,12 @@
 ﻿using BlogMVC.Data;
+using BlogMVC.Interfaces;
 using BlogMVC.Models;
 using BlogMVC.Models.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace BlogMVC.Services {
-    public class UserService {
+    public class UserService : IUserService {
         readonly BlogNowContext _context;
         public UserService(BlogNowContext context) { _context = context; }
         public async Task<User> GetUserWithPosts(string name) {
