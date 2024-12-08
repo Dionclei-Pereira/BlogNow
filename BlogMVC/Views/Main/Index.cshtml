@@ -2,15 +2,24 @@
 @{
     ViewData["Title"] = "BlogNow";
 }
-<h1>@ViewData["Title"]</h1>
-@if(User.Identity.IsAuthenticated){
-    <a asp-action="Create" asp-controller="Main" class="sidebar">Create a Post</a>
-}
 <html>
 <head>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 </head>
 <body>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a asp-action="Create" asp-controller="Main">Create a Post</a></li>
+            <li><a asp-action="Following" asp-controller="Main">Following</a></li>
+            <li><a asp-action="Followed" asp-controller="Main">Followed</a></li>
+        </ul>
+    </div>
+
+    <br />
+    <br />
+    <br />
+    <h1>@ViewData["Title"]</h1>
     @foreach (var post in Model)
     {
         <div class="Post">

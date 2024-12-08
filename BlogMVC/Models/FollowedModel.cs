@@ -9,6 +9,5 @@
         public FollowedModel(string ownerId) {
             OwnerId = ownerId;
         }
-
     }
 }

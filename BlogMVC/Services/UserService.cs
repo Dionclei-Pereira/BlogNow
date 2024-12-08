@@ -23,6 +23,10 @@ namespace BlogMVC.Services {
             }
             return user;
         }
+        public async Task<User> GetUserByMailNoTracking(string email) {
+            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email);
+            return user;
+        }
 
         public async Task<Post> GetPostById(int id) {
             return await _context.Posts.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);

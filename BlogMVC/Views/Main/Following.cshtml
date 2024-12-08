@@ -1,0 +1,26 @@
+﻿@model List<FollowingModel>
+@{
+    Layout = null;
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <link rel="stylesheet" href="~/css/style.css" />
+    </head>
+    <body>
+        <br />
+        <br />
+        <br />
+        @if(Model.Count > 0) {
+            foreach (FollowingModel follow in Model)
+            {
+                <br />
+                <div>
+                    <a class="user-follow" asp-action="UserViewByMail" asp-route-email="@follow.OwnerId">@follow.OwnerId</a>
+                </div>
+                <br />
+            }
+        } else {
+        <h1>You are not following anyone!</h1>
+        }
+    </body>
+</html>

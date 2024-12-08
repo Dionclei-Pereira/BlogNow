@@ -199,7 +199,7 @@ namespace BlogMVC.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "FollowedModel",
+                name: "Followed",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -211,9 +211,9 @@ namespace BlogMVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FollowedModel", x => x.Id);
+                    table.PrimaryKey("PK_Followed", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FollowedModel_AspNetUsers_UserId",
+                        name: "FK_Followed_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -222,7 +222,7 @@ namespace BlogMVC.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "FollowingModel",
+                name: "Following",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -234,9 +234,9 @@ namespace BlogMVC.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FollowingModel", x => x.Id);
+                    table.PrimaryKey("PK_Following", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FollowingModel_AspNetUsers_UserId",
+                        name: "FK_Following_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -359,13 +359,13 @@ namespace BlogMVC.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FollowedModel_UserId",
-                table: "FollowedModel",
+                name: "IX_Followed_UserId",
+                table: "Followed",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FollowingModel_UserId",
-                table: "FollowingModel",
+                name: "IX_Following_UserId",
+                table: "Following",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -400,10 +400,10 @@ namespace BlogMVC.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "FollowedModel");
+                name: "Followed");
 
             migrationBuilder.DropTable(
-                name: "FollowingModel");
+                name: "Following");
 
             migrationBuilder.DropTable(
                 name: "LikeModel");

@@ -17,8 +17,9 @@ body, html {
     color: white;
 }
 
-.text-danger {
+ .text-danger {
     color: red;
+    text-align: left;
 }
 
 input {

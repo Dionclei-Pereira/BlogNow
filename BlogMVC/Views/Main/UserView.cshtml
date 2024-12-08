@@ -1,18 +1,30 @@
 ﻿@model BlogMVC.Models.User;
-@{
-    string Email = "";
-    if (Model != null)
-    {
-        ViewData["Title"] = Model.NickName;
-        Email = User.Identity.Name;
-        Model.Posts = Model.Posts.OrderByDescending(d => d.Date).ToList();
-    }
-}
+
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     </head>
     <body>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a asp-action="Create" asp-controller="Main">Create a Post</a></li>
+            <li><a asp-action="Following" asp-controller="Main">Following</a></li>
+            <li><a asp-action="Followed" asp-controller="Main">Followed</a></li>
+        </ul>
+    </div>
+    <br />
+    <br />
+    <br />
+    @{
+        string Email = "";
+        if (Model != null)
+        {
+            ViewData["Title"] = Model.NickName;
+            Email = User.Identity.Name;
+            Model.Posts = Model.Posts.OrderByDescending(d => d.Date).ToList();
+        }
+    }
     <h1>@ViewData["Title"]</h1>
     <h6>@Model.UserName</h6>
     <p>Followers: 

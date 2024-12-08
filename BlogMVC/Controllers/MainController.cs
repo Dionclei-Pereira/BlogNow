@@ -49,6 +49,19 @@ namespace BlogMVC.Controllers {
             return RedirectToAction(nameof(Index));
             
         }
+
+        public async Task<IActionResult> UserViewByMail(string? email) {
+            try {
+                if (email == null) {
+                    return RedirectToAction(nameof(Error), new { message = "User not found" });
+                }
+                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+                return RedirectToAction(nameof(UserView), new {id = user?.NickName});
+            } catch (Exception ex) {
+                return RedirectToAction(nameof(Error), new { message = ex.Message });
+            }
+        }
+
         public async Task<IActionResult> UserView(string? id) {
             try
             {
@@ -78,6 +91,27 @@ namespace BlogMVC.Controllers {
             return View(viewModel);
         }
 
+        public async Task<IActionResult> Following() {
+            if (!User.Identity.IsAuthenticated) {
+                return RedirectToAction("Index", "Account");
+            }
+            User u = await _userService.GetUserByMailNoTracking(User.Identity.Name);  
+            List<FollowingModel> users = await _context.Following
+                .Where(x => x.UserId == u.Id)
+                .ToListAsync();
+            return View(users);
+        }
+
+        public async Task<IActionResult> Followed() {
+            if (!User.Identity.IsAuthenticated) {
+                return RedirectToAction("Index", "Account");
+            }
+            User u = await _userService.GetUserByMailNoTracking(User.Identity.Name);
+            List<FollowedModel> users = await _context.Followed
+                .Where(x => x.UserId == u.Id)
+                .ToListAsync();
+            return View(users);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -95,7 +129,7 @@ namespace BlogMVC.Controllers {
                 User user = await _userService.GetUserWithPosts(model.Owner);
                 post.UserId = user.Id;
                 _context.Posts.Add(post);
-                user.Posts.Add(post);
+                user?.Posts?.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -115,7 +149,7 @@ namespace BlogMVC.Controllers {
             if (email == null || email == "@Email" || email == "undefined") {
                 return Json(new {error = "You need to be logged in to like posts" });
             }
-            if (email != User.Identity.Name) {
+            if (email != User?.Identity?.Name) {
                 return RedirectToAction(nameof(Error), new { message = "Bad Request" });
             }
             var post = await _context.Posts.Include(p => p.likedpeople).FirstOrDefaultAsync(p => p.Id == postID);
@@ -136,7 +170,7 @@ namespace BlogMVC.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Follow(string email, string target, int follow) {
-            if (email != User.Identity.Name || target == email) {
+            if (email != User?.Identity?.Name || target == email) {
                 return RedirectToAction(nameof(Error), new { message = "Bad Request" });
             }
             if (email == null || email == "@Email" || email == "undefined") {

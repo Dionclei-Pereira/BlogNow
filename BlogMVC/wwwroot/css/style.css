@@ -3,6 +3,54 @@
     color: lightgray;
 }
 
+.user-follow {
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: transparent;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+user-follow:hover {
+    background-color: rgba(255, 255, 255, 0.2); 
+    color: #fff; 
+}
+
+.sidebar {
+    position: fixed;
+    top: 40px;
+    right: 0;
+    width: 200px;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+    .sidebar h2 {
+        margin-top: 0;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        .sidebar ul li {
+            margin: 10px 0;
+        }
+
+            .sidebar ul li a {
+                color: white;
+                text-decoration: none;
+            }
+
+                .sidebar ul li a:hover {
+                    text-decoration: underline;
+                }
 
 .like-count {
     margin: 10px 10px 10px 0;

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogMVC.Migrations
 {
     [DbContext(typeof(BlogNowContext))]
-    [Migration("20241204110703_Follow")]
+    [Migration("20241207180711_Follow")]
     partial class Follow
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,7 +62,7 @@ namespace BlogMVC.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FollowedModel");
+                    b.ToTable("Followed");
                 });
 
             modelBuilder.Entity("BlogMVC.Models.FollowingModel", b =>
@@ -83,7 +83,7 @@ namespace BlogMVC.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FollowingModel");
+                    b.ToTable("Following");
                 });
 
             modelBuilder.Entity("BlogMVC.Models.LikeModel", b =>

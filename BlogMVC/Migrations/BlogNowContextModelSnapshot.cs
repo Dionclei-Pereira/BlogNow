@@ -60,7 +60,7 @@ namespace BlogMVC.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FollowedModel");
+                    b.ToTable("Followed");
                 });
 
             modelBuilder.Entity("BlogMVC.Models.FollowingModel", b =>
@@ -81,7 +81,7 @@ namespace BlogMVC.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FollowingModel");
+                    b.ToTable("Following");
                 });
 
             modelBuilder.Entity("BlogMVC.Models.LikeModel", b =>
