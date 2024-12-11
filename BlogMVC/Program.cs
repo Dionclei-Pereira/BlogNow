@@ -27,13 +27,28 @@ builder.Services.AddIdentity<User, IdentityRole>(options => {
 .AddEntityFrameworkStores<BlogNowContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options => {
+    options.LoginPath = "/Account/Index";
+    options.AccessDeniedPath = "/Account/Error";
+});
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-//
+//roles
+var scope = app.Services.CreateScope();
+var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
+string admin = "Admin";
+if (!await roleManager.RoleExistsAsync(admin)) {
+    await roleManager.CreateAsync(new IdentityRole(admin));
+}
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
-
+var user = await userManager.FindByEmailAsync("Beah2323@gmail.com");
+if (user != null) {
+    await userManager.AddToRoleAsync(user, admin);
+}
 
 //
 

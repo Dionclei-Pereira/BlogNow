@@ -3,6 +3,7 @@ using BlogMVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 public class AccountController : Controller {
@@ -16,8 +17,18 @@ public class AccountController : Controller {
 
     public async Task<IActionResult> Index() => View();
 
+    public async Task<IActionResult> Error(string message) {
+        var viewmodel = new ErrorViewModel { Message = message, RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
+        return View(viewmodel);
+    }
+
     [HttpGet]
-    public async Task<IActionResult> Login() => View();
+    public async Task<IActionResult> Login() {
+        if (User.Identity.IsAuthenticated) {
+            return RedirectToAction(nameof(Error), new { message = "You are already logged in" });
+        }
+        return View();
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -31,7 +42,12 @@ public class AccountController : Controller {
     }
 
     [HttpGet]
-    public IActionResult Register() => View();
+    public IActionResult Register() {
+        if (User.Identity.IsAuthenticated) {
+            return RedirectToAction(nameof(Error), new { message = "You are already logged in" });
+        }
+        return View();
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]

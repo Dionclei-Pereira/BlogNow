@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using BlogMVC.Interfaces;
 
 namespace BlogMVC.Controllers {
+    [Authorize]
     public class MainController : Controller {
 
         readonly BlogNowContext _context;
@@ -28,6 +29,8 @@ namespace BlogMVC.Controllers {
             _userManager = userManager;
             _followService = followService;
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> Index() {
             Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0";
             Response.Headers["Pragma"] = "no-cache";
@@ -68,19 +71,14 @@ namespace BlogMVC.Controllers {
         }
 
         public async Task<IActionResult> UserView(string? id) {
-            try
-            {
-                if (User.Identity.IsAuthenticated) {
-                    User user = await _userService.GetUserByMail(User.Identity.Name);
-                    if (user == null) {
-                        return RedirectToAction("Logout", "Account");
-                    }
-                    ViewData["UserName"] = user.NickName;
+            try {
+                User user = await _userService.GetUserByMail(User.Identity.Name);
+                if (user == null) {
+                    return RedirectToAction("Logout", "Account");
                 }
+                ViewData["UserName"] = user.NickName;
                 return View(await _userService.GetUserWithAll(id));
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 return RedirectToAction(nameof(Error), new { message = ex.Message });
             }
         }
@@ -97,9 +95,6 @@ namespace BlogMVC.Controllers {
         }
 
         public async Task<IActionResult> Following() {
-            if (!User.Identity.IsAuthenticated) {
-                return RedirectToAction("Index", "Account");
-            }
             User u = await _userService.GetUserByMailNoTracking(User.Identity.Name);  
             List<FollowingModel> users = await _context.Following
                 .Where(x => x.UserId == u.Id)
@@ -108,9 +103,7 @@ namespace BlogMVC.Controllers {
         }
 
         public async Task<IActionResult> Followed() {
-            if (!User.Identity.IsAuthenticated) {
-                return RedirectToAction("Index", "Account");
-            }
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
             User u = await _userService.GetUserByMailNoTracking(User.Identity.Name);
             List<FollowedModel> users = await _context.Followed
                 .Where(x => x.UserId == u.Id)
@@ -119,7 +112,6 @@ namespace BlogMVC.Controllers {
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAsync(CreateViewModel model) {
             string name = null;
@@ -144,10 +136,7 @@ namespace BlogMVC.Controllers {
         }
 
         public async Task<IActionResult> VerifyLogin() {
-            if (User.Identity.IsAuthenticated) {
-                return RedirectToAction("Index");
-            }
-            return RedirectToAction("Index", "Account");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
