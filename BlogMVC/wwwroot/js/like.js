@@ -5,12 +5,15 @@
         heart.addEventListener('click', () => {
             let postId = heart.dataset.postid;
             const params = new URLSearchParams;
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            console.log(token);
             params.append('PostId', postId);
             params.append('Email', email);
             fetch('/Main/LikePost', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': token,
                 },
                 body: params.toString()
             })

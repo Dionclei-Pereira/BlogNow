@@ -140,6 +140,7 @@ namespace BlogMVC.Controllers {
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> LikePost(int postID, string email) {
             if (email == null || email == "@Email" || email == "undefined") {
                 return Json(new {error = "You need to be logged in to like posts" });
@@ -164,6 +165,7 @@ namespace BlogMVC.Controllers {
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Follow(string email, string target, int follow) {
             if (email != User?.Identity?.Name || target == email) {
                 return RedirectToAction(nameof(Error), new { message = "Invalid request" });

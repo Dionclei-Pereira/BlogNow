@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     </head>
     <body>
+    @Html.AntiForgeryToken();
     <div class="sidebar">
         <h2>Menu</h2>
         <ul>
@@ -80,13 +81,15 @@
             const value = document.querySelector(".follow-number");
             follow.addEventListener("click", () => {
                 const params = new URLSearchParams();
+                const token = document.querySelector('input[name = "__RequestVerificationToken"]').value;
                 params.append("email", "@User.Identity.Name");
                 params.append("target", "@Model.Email");
                 params.append("follow", value.textContent);
                 fetch("/Main/Follow", {
                     method: "post",
                     headers: {
-                        'Content-Type': "application/x-www-form-urlencoded"
+                        'Content-Type': "application/x-www-form-urlencoded",
+                        'RequestVerificationToken': token
                     },
                     body: params.toString()
                 }).then(response => response.json())
