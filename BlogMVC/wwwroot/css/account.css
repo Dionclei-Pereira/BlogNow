@@ -10,41 +10,44 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #36454F;
+    background: linear-gradient(to bottom, #000000, #4B0082);
 }
 
 .text {
     color: white;
 }
 
- .text-danger {
+.text-danger {
     color: red;
     text-align: left;
 }
 
 input {
-    background-color: lightgray;
-    color: black; 
+    background: linear-gradient(to right, #D8BFD8, #DDA0DD);
+    color: black;
     padding: 10px;
     border: 2px solid #ccc;
-    border-radius: 5px; 
-    font-size: 16px; 
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
 }
 
     input:focus {
-        background-color: lightblue;
-        color: darkblue; 
+        background: linear-gradient(to right, #B0E0E6, #4682B4);
+        color: darkblue;
         border-color: blue;
+        outline: none;
     }
 
 .container {
     text-align: center;
     padding: 60px;
-    background-color: rebeccapurple;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    width: 120%;
-    max-width: 1200px;
+    background: linear-gradient(to bottom, #6A5ACD, #4B0082);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    width: 100%;
+    max-width: 900px;
 }
 
 .btn-custom {
@@ -53,25 +56,28 @@ input {
     padding: 15px;
     margin: 10px 2.5%;
     text-align: center;
-    font-size: 13px;
+    font-size: 15px;
     text-decoration: none;
-    background-color: darkgray;
-    color: black;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, transform 0.3s;
+    background: linear-gradient(to right, #8A2BE2, #9370DB);
+    color: white;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
 }
 
     .btn-custom:hover {
-        background-color: white;
-        transform: translateY(-2px);
+        background: linear-gradient(to right, #9370DB, #8A2BE2);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
     }
 
 .continue-link {
     display: block;
     margin-top: 20px;
     font-size: 18px;
-    color: darkgray;
+    color: #DDA0DD;
     text-decoration: none;
     transition: color 0.3s;
 }
@@ -81,7 +87,13 @@ input {
         text-decoration: underline;
     }
 
+.title {
+    color: snow;
+}
+
 .container h2 {
     color: white;
     margin-bottom: 20px;
+    background: linear-gradient(to right, #8A2BE2, #DDA0DD);
+    -webkit-text-fill-color: transparent;
 }

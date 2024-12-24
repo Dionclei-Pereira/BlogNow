@@ -1,6 +1,9 @@
 ﻿body {
-    background-color: #36454F;
+    background: linear-gradient(to bottom, #2E2E2E, #4B0082);
     color: lightgray;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 .user-follow {
@@ -9,29 +12,33 @@
     text-decoration: none;
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: transparent;
-    transition: background-color 0.3s, color 0.3s;
+    background: linear-gradient(to right, #4B0082, #6A5ACD);
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-user-follow:hover {
-    background-color: rgba(255, 255, 255, 0.2); 
-    color: #fff; 
-}
+    .user-follow:hover {
+        background: linear-gradient(to right, #6A5ACD, #4B0082);
+        color: white;
+        transform: scale(1.05);
+    }
 
 .sidebar {
     position: fixed;
     top: 40px;
     right: 0;
-    width: 200px;
+    width: 220px;
     height: 100vh;
-    background-color: #333;
+    background: linear-gradient(to bottom, #4B0082, rgba(0, 0, 0, 0.6));
     color: white;
     padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.6);
 }
 
     .sidebar h2 {
         margin-top: 0;
+        font-size: 18px;
+        color: #DDA0DD;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
     }
 
     .sidebar ul {
@@ -44,11 +51,13 @@ user-follow:hover {
         }
 
             .sidebar ul li a {
-                color: white;
+                color: lightgray;
                 text-decoration: none;
+                transition: color 0.3s;
             }
 
                 .sidebar ul li a:hover {
+                    color: white;
                     text-decoration: underline;
                 }
 
@@ -56,87 +65,82 @@ user-follow:hover {
     margin: 10px 10px 10px 0;
     padding: 10px;
     display: inline-block;
+    color: mediumpurple;
+    font-weight: bold;
 }
 
 .user {
     color: plum;
     text-decoration: none;
-}
-.user:hover{
-    color: blueviolet;
-    text-decoration: underline;
-    
+    transition: color 0.3s, text-shadow 0.3s;
 }
 
-.Post{
-    height: auto;
+    .user:hover {
+        color: blueviolet;
+        text-decoration: underline;
+        text-shadow: 0px 0px 6px blueviolet;
+    }
+
+.Post {
     width: 300px;
-    padding: 0 0px 0px 10px;
-    border: solid;
-    border-color: mediumpurple;
+    padding: 15px;
+    border: 2px solid mediumpurple;
+    border-radius: 8px;
+    background: linear-gradient(to bottom, #2E2E2E, #3A3A3A);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: white;
+    margin-bottom: 15px;
 }
-
-
 
 .heart {
     position: relative;
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     background-color: gray;
     transform: rotate(-45deg);
-    margin: 0px;
-    border: 0px;
+    margin: 5px;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
     .heart::before,
     .heart::after {
         content: '';
         position: absolute;
-        width: 10px;
-        height: 10px;
+        width: 20px;
+        height: 20px;
         background-color: gray;
         border-radius: 50%;
+        transition: background-color 0.3s;
     }
 
     .heart::before {
-        top: -5px;
+        top: -10px;
         left: 0;
     }
 
     .heart::after {
         bottom: 0;
-        right: -5px;
+        right: -10px;
     }
 
-    .heart::before,
-    .heart::after {
-        content: '';
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        background-color: gray;
-        border-radius: 50%;
+    .heart:hover {
+        background-color: mediumpurple;
+        transform: rotate(-45deg) scale(1.1);
     }
 
-    .heart::before {
-        top: -5px;
-        left: 0;
-    }
-
-    .heart::after {
-        bottom: 0;
-        right: -3px;
-    }
+        .heart:hover::before,
+        .heart:hover::after {
+            background-color: mediumpurple;
+        }
 
 .heart-liked {
     position: relative;
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     background-color: mediumpurple;
     transform: rotate(-45deg);
-    margin: 0px;
-    border: 0px;
+    margin: 5px;
     cursor: pointer;
 }
 
@@ -144,38 +148,26 @@ user-follow:hover {
     .heart-liked::after {
         content: '';
         position: absolute;
-        width: 10px;
-        height: 10px;
+        width: 20px;
+        height: 20px;
         background-color: mediumpurple;
         border-radius: 50%;
     }
 
     .heart-liked::before {
-        top: -5px;
+        top: -10px;
         left: 0;
     }
 
     .heart-liked::after {
         bottom: 0;
-        right: -5px;
+        right: -10px;
     }
-
-    .heart-liked::before,
-    .heart-liked::after {
-        content: '';
-        position: absolute;
-        width: 10px;
-        height: 10px;
+    .heart-liked:hover {
         background-color: mediumpurple;
-        border-radius: 50%;
+        transform: rotate(-45deg) scale(1.1);
     }
-
-    .heart-liked::before {
-        top: -5px;
-        left: 0;
-    }
-
-    .heart-liked::after {
-        bottom: 0;
-        right: -3px;
+    .heart-liked:hover::before,
+    .heart-liked:hover::after {
+        background-color: mediumpurple;
     }
