@@ -12,21 +12,21 @@ namespace BlogMVC.Services {
         readonly BlogNowContext _context;
         public UserService(BlogNowContext context) { _context = context; }
         public async Task<User> GetUserWithPosts(string name) {
-            var user = await _context.Users.Include(u => u.Posts).ThenInclude(p => p.likedpeople).FirstOrDefaultAsync(x => x.NickName == name);
+            var user = await _context.Users.Where(x => x.NickName == name).Include(u => u.Posts).ThenInclude(p => p.likedpeople).FirstOrDefaultAsync();
             if (user == null) {
                 throw new UserNotFoundException("Id not found");
             }
             return user;
         }
         public async Task<User> GetUserWithAllAsNotTracking(string name) {
-            var user = await _context.Users.AsNoTracking().Include(f => f.Following).Include(f => f.Followed).Include(u => u.Posts).ThenInclude(p => p.likedpeople).FirstOrDefaultAsync(x => x.NickName == name);
+            var user = await _context.Users.AsNoTracking().Where(x => x.NickName == name).Include(f => f.Following).Include(f => f.Followed).Include(u => u.Posts).ThenInclude(p => p.likedpeople).FirstOrDefaultAsync();
             if (user == null) {
                 throw new UserNotFoundException("Id not found");
             }
             return user;
         }
         public async Task<User> GetUserWithAll(string name) {
-            var user = await _context.Users.Include(f => f.Following).Include(f => f.Followed).Include(u => u.Posts).ThenInclude(p => p.likedpeople).FirstOrDefaultAsync(x => x.NickName == name);
+            var user = await _context.Users.Where(x => x.NickName == name).Include(f => f.Following).Include(f => f.Followed).Include(u => u.Posts).ThenInclude(p => p.likedpeople).FirstOrDefaultAsync();
             if (user == null)
             {
                 throw new UserNotFoundException("Id not found");
@@ -34,7 +34,7 @@ namespace BlogMVC.Services {
             return user;
         }
         public async Task<User> GetUserByMailNoTracking(string email) {
-            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email);
+            var user = await _context.Users.Where(x => x.Email == email).AsNoTracking().FirstOrDefaultAsync();
             return user;
         }
 
@@ -46,7 +46,7 @@ namespace BlogMVC.Services {
             return user;
         }
         public async Task<User> GetUserWithFollow(string email) {
-            return await _context.Users.Include(f => f.Followed).Include(f => f.Following).FirstOrDefaultAsync(u => u.Email == email);
+            return await _context.Users.Where(u => u.Email == email).Include(f => f.Followed).Include(f => f.Following).FirstOrDefaultAsync();
         }
 
         public async Task<List<Post>> GetAllPosts() {

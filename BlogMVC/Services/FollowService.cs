@@ -22,13 +22,13 @@ namespace BlogMVC.Services {
                 .FirstOrDefaultAsync(f => f.OwnerId == target && f.UserId == user.Id);
 
             if (existingFollow == null) {
-                user.Following.Add(new FollowingModel(target));
-                userTarget.Followed.Add(new FollowedModel(email));
+                user.Following?.Add(new FollowingModel(target));
+                userTarget.Followed?.Add(new FollowedModel(email));
                 await _context.SaveChangesAsync();
                 return 1;
             } else {
-                userTarget.Followed.Remove(userTarget.Followed.FirstOrDefault(x => x.OwnerId == email));
-                user.Following.Remove(user.Following.FirstOrDefault(x => x.OwnerId == target));
+                userTarget.Followed?.Remove(userTarget.Followed.FirstOrDefault(x => x.OwnerId == email));
+                user.Following?.Remove(user.Following.FirstOrDefault(x => x.OwnerId == target));
                 await _context.SaveChangesAsync();
                 return -1;
             }

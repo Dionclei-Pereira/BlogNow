@@ -24,7 +24,7 @@
 
 .sidebar {
     position: fixed;
-    top: 40px;
+    top: 50px;
     right: 0;
     width: 220px;
     height: 100vh;
@@ -142,6 +142,7 @@
     transform: rotate(-45deg);
     margin: 5px;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
     .heart-liked::before,
