@@ -6,14 +6,7 @@
     </head>
     <body>
     @Html.AntiForgeryToken();
-    <div class="sidebar">
-        <h2>Menu</h2>
-        <ul>
-            <li><a asp-action="Create" asp-controller="Main">Create a Post</a></li>
-            <li><a asp-action="Following" asp-controller="Main">Following</a></li>
-            <li><a asp-action="Followed" asp-controller="Main">Followed</a></li>
-        </ul>
-    </div>
+    @await Html.PartialAsync("_SidebarMenu")
     <br />
     <br />
     <br />
@@ -38,42 +31,10 @@
         }
     </p>
     <br />
-    @if (Model.Posts != null)
-    {
-        foreach (var post in Model.Posts)
-        {
-            <div class="Post">
-                <div class="User">
-                    <a class="user" asp-action="UserView" asp-route-id="@post.Owner">@Html.DisplayFor(modelItem => post.Owner)</a>
-                </div>
-                <div class="Comment">
-                    <p>@Html.DisplayFor(ModelItem => post.Message)</p>
-                    <div class="Like">
-                        @if (post.likedpeople.FirstOrDefault(x => x.PersonalEmail == User.Identity.Name) != null)
-                        {
-                            <button class="heart-liked" data-postid="@post.Id"></button>
-                        }
-                        else
-                        {
-                            <button class="heart" data-postid="@post.Id"></button>
-                        }
-                        <p class="like-count">Likes: <span id="likes-count-@post.Id">@post.Likes</span></p>
-                        @if (Model.Email == User.Identity.Name) {
-                            <form action="@Url.Action("DeletePost", "Main")" method="post">
-                                @Html.AntiForgeryToken()
-                                <input type="hidden" name="owner" value="@Email" />
-                                <input type="hidden" name="id" value="@post.Id" />
-                                <button class="delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                            </form>
-                            }
-                    </div>
-                    <p>@post.Date.ElapsedTime()</p>
-                </div>
-            </div>
-            <br />
-            <br />
-        }
-    }
+    @await Html.PartialAsync("_PostList", new BlogMVC.Models.ViewModels.PostListViewModel() {
+        Posts = Model.Posts,
+        Email = Model.Email
+    })
     <script>
         //follow
         document.addEventListener("DOMContentLoaded", () => {

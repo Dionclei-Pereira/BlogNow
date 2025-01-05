@@ -1,0 +1,40 @@
+﻿@model BlogMVC.Models.ViewModels.PostListViewModel
+
+@if (Model != null && Model.Posts != null)
+{
+    foreach (var post in Model.Posts)
+    {
+        <div class="Post">
+            <div class="User">
+                <a class="user" asp-action="UserView" asp-route-id="@post.Owner">@Html.DisplayFor(modelItem => post.Owner)</a>
+            </div>
+            <div class="Comment">
+                <p>@Html.DisplayFor(ModelItem => post.Message)</p>
+                <div class="Like">
+                    @if (post.likedpeople.FirstOrDefault(x => x.PersonalEmail == User.Identity.Name) != null)
+                    {
+                        <button class="heart-liked" data-postid="@post.Id"></button>
+                    }
+                    else
+                    {
+                        <button class="heart" data-postid="@post.Id"></button>
+                    }
+                    <p class="like-count">Likes: <span id="likes-count-@post.Id">@post.Likes</span></p>
+
+                    @if (Model.Email != null && Model.Email == User.Identity.Name)
+                    {
+                        <form action="@Url.Action("DeletePost", "Main")" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="owner" value="@Model.Email" />
+                            <input type="hidden" name="id" value="@post.Id" />
+                            <button class="delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    }
+                </div>
+                <p>@post.Date.ElapsedTime()</p>
+            </div>
+        </div>
+        <br />
+        <br />
+    }
+}
