@@ -1,0 +1,124 @@
+﻿@model Post
+
+<div class="modal-post">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close-btn">X</button>
+            <a class="modal-user" asp-action="UserView" asp-route-id="@Model.Owner">
+                @Html.DisplayFor(modelItem => Model.Owner)
+            </a>
+        </div>
+        <div class="modal-body">
+            <p class="modal-message">@Html.DisplayFor(ModelItem => Model.Message)</p>
+        </div>
+    </div>
+    <div class="modal-info">
+        <p class="modal-likes">Likes: <span>@Model.Likes</span></p>
+        <p class="modal-date">@Model.Date.ElapsedTime()</p>
+    </div>
+</div>
+<style>
+    .close-btn {
+        background-color: mediumpurple;
+        color: white;
+    }
+    .modal-info {
+        position: absolute;
+        bottom: 5px;
+        left: 10px;
+        display: flex;
+        gap: 10px;
+        font-size: 16px;
+        color: #dcdcdc;
+    }
+    .modal-post {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        max-width: 900px;
+        background-color: #2E2E2E;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        padding: 40px;
+        font-family: Arial, sans-serif;
+        color: gray;
+    }
+
+    .modal-content {
+        bottom: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #2E2E2E;
+        text-align: center;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 30px;
+    }
+
+    .close-modal {
+        background-color: transparent;
+        border: none;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        color: mediumpurple;
+        outline: none;
+        transition: color 0.3s ease;
+    }
+
+        .close-modal:hover {
+            color: #9370db; 
+        }
+
+    .modal-user {
+        font-size: 36px; 
+        font-weight: bold;
+        text-decoration: none;
+        color: mediumpurple;
+    }
+
+        .modal-user:hover {
+            color: #9370db;
+        }
+
+    .modal-body {
+        width: 100%;
+        word-break: break-all;
+    }
+
+    .modal-message {
+        font-size: 28px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        font-size: 22px;
+        color: #dcdcdc; 
+        border-top: 1px solid #444;
+        padding-top: 15px;
+        margin-top: 20px;
+    }
+
+    .modal-likes {
+        color: mediumpurple;
+        font-weight: bold;
+    }
+
+    .modal-date {
+        color: gray;
+    }
+</style>

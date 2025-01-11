@@ -1,12 +1,12 @@
-﻿        const email = window.email;
-        document.addEventListener('DOMContentLoaded', () => {
-        let hearts = document.querySelectorAll('.heart, .heart-liked');
-            hearts.forEach(heart => {
-        heart.addEventListener('click', () => {
+﻿const email = window.email;
+document.addEventListener('DOMContentLoaded', () => {
+    let hearts = document.querySelectorAll('.heart, .heart-liked');
+    hearts.forEach(heart => {
+        heart.addEventListener('click', (event) => {
+            event.stopPropagation();
             let postId = heart.dataset.postid;
             const params = new URLSearchParams;
             const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-            console.log(token);
             params.append('PostId', postId);
             params.append('Email', email);
             fetch('/Main/LikePost', {
@@ -23,7 +23,7 @@
                         alert(response.error)
                         return;
                     }
-                    const postElement = document.querySelector(`[data-postid="${postId}"]`);
+                    const postElement = document.querySelector(`button[data-postid="${postId}"]`);
                     postElement.className = response.status;
                     const likesCount = document.querySelector(`#likes-count-${postId}`);
                     if (likesCount) {
@@ -31,7 +31,7 @@
                     }
                 }).catch(() => {
                     alert('Error');
-            })
+                })
         })
     })
 })

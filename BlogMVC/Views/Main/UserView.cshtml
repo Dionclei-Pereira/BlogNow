@@ -1,10 +1,11 @@
 ﻿@model BlogMVC.Models.User;
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
+<head>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
-    </head>
-    <body>
+</head>
+<body>
+    <div class="container-post"></div>
     @Html.AntiForgeryToken();
     @await Html.PartialAsync("_SidebarMenu")
     <br />
@@ -21,9 +22,11 @@
     }
     <h1>@ViewData["Title"]</h1>
     <h6>@Model.UserName</h6>
-    <p>Followers: 
+    <p>
+        Followers:
         <span class="follow-number">@Model.Followed.Count()</span>
-        @if (User.Identity.IsAuthenticated){
+        @if (User.Identity.IsAuthenticated)
+        {
             if (Model.Email != User.Identity.Name && User.Identity.Name != null)
             {
                 <button class="follow-btn">Follow</button>
@@ -31,10 +34,11 @@
         }
     </p>
     <br />
-    @await Html.PartialAsync("_PostList", new BlogMVC.Models.ViewModels.PostListViewModel() {
-        Posts = Model.Posts,
-        Email = Model.Email
-    })
+    @await Html.PartialAsync("_PostList", new BlogMVC.Models.ViewModels.PostListViewModel()
+{
+    Posts = Model.Posts,
+    Email = Model.Email
+})
     <script>
         //follow
         document.addEventListener("DOMContentLoaded", () => {
@@ -71,6 +75,7 @@
         window.email = "@User.Identity.Name";
     </script>
     <script src="~/js/like.js"></script>
-    </body>
+    <script src="~/js/postPartialView.js"></script>
+</body>
 </html>
 

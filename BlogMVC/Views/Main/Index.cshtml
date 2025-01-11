@@ -13,6 +13,7 @@
     <br />
     <br />
     <h1>@ViewData["Title"]</h1>
+    <div class="container-post"></div>
     @await Html.PartialAsync("_PostList", new BlogMVC.Models.ViewModels.PostListViewModel() {
         Posts = Model,
         Email = null
@@ -21,5 +22,6 @@
         window.email = "@User.Identity.Name";
     </script>
     <script src="~/js/like.js"></script>
+    <script src="~/js/postPartialView.js"></script>
 </body>
 </html>

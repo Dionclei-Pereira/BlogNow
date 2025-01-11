@@ -21,11 +21,16 @@ namespace BlogMVC.Controllers {
         readonly SeedingDB _seed;
         readonly UserManager<User> _userManager;
         readonly IFollowService _followService;
-        public MainController(IFollowService followService, SeedingDB seedingDB, IUserService userService,UserManager<User> userManager) {
+        public MainController(IFollowService followService, SeedingDB seedingDB, IUserService userService, UserManager<User> userManager) {
             _userService = userService;
             _seed = seedingDB;
             _userManager = userManager;
             _followService = followService;
+        }
+
+        public async Task<IActionResult> PostReturn(int postId) {
+            Post post = await _userService.GetPostById(postId);
+            return PartialView("_PostView", post);
         }
 
         [AllowAnonymous]
@@ -33,8 +38,7 @@ namespace BlogMVC.Controllers {
             Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0";
             Response.Headers["Pragma"] = "no-cache";
             Response.Headers["Expires"] = "-1";
-            if (User.Identity.IsAuthenticated)
-            {
+            if (User.Identity.IsAuthenticated) {
                 User user = await _userService.GetUserByMail(User.Identity.Name);
                 if (user == null) {
                     return RedirectToAction("Logout", "Account");
@@ -52,7 +56,7 @@ namespace BlogMVC.Controllers {
             Post post = await _userService.GetPostById(id.Value);
             await _userService.RemovePost(post);
             return RedirectToAction(nameof(Index));
-            
+
         }
 
         public async Task<IActionResult> UserViewByMail(string? email) {
@@ -61,7 +65,7 @@ namespace BlogMVC.Controllers {
                     return RedirectToAction(nameof(Error), new { message = "User not found" });
                 }
                 User user = await _userService.GetUserByMailNoTracking(email);
-                return RedirectToAction(nameof(UserView), new {id = user?.NickName});
+                return RedirectToAction(nameof(UserView), new { id = user?.NickName });
             } catch (Exception ex) {
                 return RedirectToAction(nameof(Error), new { message = ex.Message });
             }
@@ -92,7 +96,7 @@ namespace BlogMVC.Controllers {
         }
 
         public async Task<IActionResult> Following() {
-            User u = await _userService.GetUserByMailNoTracking(User.Identity.Name);  
+            User u = await _userService.GetUserByMailNoTracking(User.Identity.Name);
             List<FollowingModel> users = await _userService.GetFollowingByUserId(u.Id);
             return View(users);
         }
@@ -113,7 +117,7 @@ namespace BlogMVC.Controllers {
                 name = user.NickName;
             }
             model.Date = DateTime.Now;
-            model.Owner = name; 
+            model.Owner = name;
             ViewData["UserName"] = name;
             if (ModelState.IsValid) {
                 await _userService.AddPost(model);
@@ -159,9 +163,9 @@ namespace BlogMVC.Controllers {
                 int result = await _followService.ToggleFollowAsync(email, target);
 
                 if (result == 1) {
-                    follow++; 
+                    follow++;
                 } else if (result == -1) {
-                    follow--; 
+                    follow--;
                 }
                 return Json(new { followers = follow });
             } catch (Exception ex) {

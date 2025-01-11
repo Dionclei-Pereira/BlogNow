@@ -4,12 +4,12 @@
 {
     foreach (var post in Model.Posts)
     {
-        <div class="Post">
+        <div class="Post" data-postid="@post.Id">
             <div class="User">
                 <a class="user" asp-action="UserView" asp-route-id="@post.Owner">@Html.DisplayFor(modelItem => post.Owner)</a>
             </div>
             <div class="Comment">
-                <p>@Html.DisplayFor(ModelItem => post.Message)</p>
+                <p>@post.GetParsedMessage()</p>
                 <div class="Like">
                     @if (post.likedpeople.FirstOrDefault(x => x.PersonalEmail == User.Identity.Name) != null)
                     {

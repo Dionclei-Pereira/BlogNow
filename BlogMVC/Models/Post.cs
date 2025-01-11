@@ -24,5 +24,13 @@ namespace BlogMVC.Models {
             return Likes;
         }
 
+        public string GetParsedMessage() {
+            if (Message.Length < 65) {
+                return Message;
+            }
+            string subString = Message.Substring(0, 65);
+            return subString + "...";
+        }
+
     }
 }

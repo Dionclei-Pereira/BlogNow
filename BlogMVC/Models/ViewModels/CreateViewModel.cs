@@ -5,7 +5,7 @@ namespace BlogMVC.Models.ViewModels {
         public string? Owner { get; set; }
         public DateTime Date { get; set; }
         [Required]
-        [StringLength(65, MinimumLength = 5 ,ErrorMessage ="{0} must be between {2} and {1} length")]
+        [StringLength(150, MinimumLength = 5 ,ErrorMessage ="{0} must be between {2} and {1} length")]
         public string? Message { get; set; }
     }
 }

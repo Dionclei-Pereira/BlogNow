@@ -1,4 +1,5 @@
 ﻿body {
+    word-break: break-all;
     background: linear-gradient(to bottom, #2E2E2E, #4B0082);
     color: lightgray;
     font-family: 'Arial', sans-serif;
@@ -21,7 +22,6 @@
         color: white;
         transform: scale(1.05);
     }
-
 .sidebar {
     position: fixed;
     top: 50px;
