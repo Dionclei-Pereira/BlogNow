@@ -6,8 +6,8 @@
                 modalPost.remove();
             }
         }
-    });
-    let posts = document.querySelectorAll('.Post');
+   });
+    const posts = document.querySelectorAll('.Comment');
     posts.forEach(post => {
         post.addEventListener('click', () => {
             const postId = post.dataset.postid;

@@ -8,7 +8,7 @@
             <div class="User">
                 <a class="user" asp-action="UserView" asp-route-id="@post.Owner">@Html.DisplayFor(modelItem => post.Owner)</a>
             </div>
-            <div class="Comment">
+            <div class="Comment" data-postid="@post.Id">
                 <p>@post.GetParsedMessage()</p>
                 <div class="Like">
                     @if (post.likedpeople.FirstOrDefault(x => x.PersonalEmail == User.Identity.Name) != null)
