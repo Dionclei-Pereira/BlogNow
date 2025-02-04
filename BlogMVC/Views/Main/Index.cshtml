@@ -22,6 +22,8 @@
         window.email = "@User.Identity.Name";
     </script>
     <script src="~/js/like.js"></script>
-    <script src="~/js/postPartialView.js"></script>
+    @if(User.Identity.IsAuthenticated) {
+        <script src="~/js/postPartialView.js"></script>
+    }
 </body>
 </html>
