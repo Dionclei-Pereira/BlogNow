@@ -17,6 +17,7 @@ namespace BlogMVC.Interfaces {
         Task<List<FollowingModel>> GetFollowingByUserId(string id);
         Task<List<FollowedModel>> GetFollowedByUserId(string id);
         Task<List<Post>> GetAllPosts();
+        Task<PageResult> GetPostsByPage(int page);
         Task RemovePost(Post post);
         Task AddPost(CreateViewModel model);
         Task<object> ToggleLike(int postID, string email, string authenticatedEmail);

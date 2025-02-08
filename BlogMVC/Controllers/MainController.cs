@@ -12,6 +12,7 @@ using BlogMVC.Models.Exceptions;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Authorization;
 using BlogMVC.Interfaces;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BlogMVC.Controllers {
     [Authorize]
@@ -34,7 +35,8 @@ namespace BlogMVC.Controllers {
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index() {
+        [Route("/Main/Index/{page?}")]
+        public async Task<IActionResult> Index(int? page) {
             Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0";
             Response.Headers["Pragma"] = "no-cache";
             Response.Headers["Expires"] = "-1";
@@ -46,8 +48,10 @@ namespace BlogMVC.Controllers {
                 ViewData["UserName"] = user.NickName;
             }
             await _seed.SeedAsync(_userManager);
-            List<Post> posts = await _userService.GetAllPosts();
-            return View(posts);
+            var pageResult = await _userService.GetPostsByPage(page ?? 1);
+            ViewBag.CurrentPage = pageResult.CurrentPage;
+            ViewBag.TotalPages = pageResult.TotalPages;
+            return View(pageResult.Items);
         }
 
         [HttpPost]

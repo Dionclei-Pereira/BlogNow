@@ -18,6 +18,19 @@ namespace BlogMVC.Services {
             }
             return user;
         }
+
+        public async Task<PageResult> GetPostsByPage(int page) {
+            int skip = (page - 1) * 10;
+            int totalItems = await _context.Posts.CountAsync();
+            int totalPages = (int)Math.Ceiling((double)totalItems / 10);
+            List<Post> items = await _context.Posts.Include(p => p.likedpeople).AsNoTracking().OrderByDescending(obj => obj.Date).Skip(skip).Take(10).ToListAsync();
+            return new PageResult {
+                Items = items,
+                CurrentPage = page,
+                TotalPages = totalPages
+            };
+        }
+
         public async Task<User> GetUserWithAllAsNotTracking(string name) {
             var user = await _context.Users.AsNoTracking().Where(x => x.NickName == name).Include(f => f.Following).Include(f => f.Followed).Include(u => u.Posts).ThenInclude(p => p.likedpeople).FirstOrDefaultAsync();
             if (user == null) {
@@ -99,5 +112,5 @@ namespace BlogMVC.Services {
                 await _context.SaveChangesAsync();
                 return new { likes = post.Likes, status = "heart-liked" };
             }
-        }
+    }
 }
