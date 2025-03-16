@@ -1,8 +1,8 @@
 ﻿using BlogMVC.Data;
-using BlogMVC.Interfaces;
 using BlogMVC.Models;
 using BlogMVC.Models.Exceptions;
 using BlogMVC.Models.ViewModels;
+using BlogMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

@@ -1,6 +1,6 @@
 ﻿using BlogMVC.Models;
 
-namespace BlogMVC.Interfaces {
+namespace BlogMVC.Services.Interfaces {
     public interface IFollowService {
         Task<sbyte> ToggleFollowAsync(string email, string target);
         Task<List<FollowingModel>> GetFollowingByUserId(string id);

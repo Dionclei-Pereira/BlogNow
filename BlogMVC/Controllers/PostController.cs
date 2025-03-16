@@ -2,7 +2,7 @@
 using BlogMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using BlogMVC.Interfaces;
+using BlogMVC.Services.Interfaces;
 
 namespace BlogMVC.Controllers {
     public class PostController : Controller {

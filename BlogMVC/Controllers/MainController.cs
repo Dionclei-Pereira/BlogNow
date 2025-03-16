@@ -11,8 +11,8 @@ using BlogMVC.Models.ViewModels;
 using BlogMVC.Models.Exceptions;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Authorization;
-using BlogMVC.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using BlogMVC.Services.Interfaces;
 
 namespace BlogMVC.Controllers {
 

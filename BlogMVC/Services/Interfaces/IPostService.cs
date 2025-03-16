@@ -1,7 +1,7 @@
 ﻿using BlogMVC.Models;
 using BlogMVC.Models.ViewModels;
 
-namespace BlogMVC.Interfaces {
+namespace BlogMVC.Services.Interfaces {
     public interface IPostService {
 
         Task<Post> GetPostById(int id);

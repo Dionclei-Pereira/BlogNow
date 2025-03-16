@@ -1,7 +1,7 @@
 using BlogMVC.Data;
-using BlogMVC.Interfaces;
 using BlogMVC.Models;
 using BlogMVC.Services;
+using BlogMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

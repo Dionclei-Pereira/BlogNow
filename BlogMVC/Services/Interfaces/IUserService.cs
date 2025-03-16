@@ -5,7 +5,7 @@ using BlogMVC.Data;
 using BlogMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BlogMVC.Interfaces {
+namespace BlogMVC.Services.Interfaces {
     public interface IUserService {
         Task<User> GetUserWithPosts(string name);
         Task<User> GetUserWithAll(string name);
