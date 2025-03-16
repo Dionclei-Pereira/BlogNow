@@ -21,9 +21,9 @@
     <script>
         window.email = "@User.Identity.Name";
     </script>
-    <script src="~/js/like.js"></script>
+    <script src="~/js/likes.js"></script>
     @if(User.Identity.IsAuthenticated) {
-        <script src="~/js/postPartialView.js"></script>
+        <script src="~/js/postRenderPartialView.js"></script>
     }
     @await Html.PartialAsync("_Pages")
 </body>

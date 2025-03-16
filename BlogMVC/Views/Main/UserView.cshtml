@@ -50,7 +50,7 @@
                 params.append("email", "@User.Identity.Name");
                 params.append("target", "@Model.Email");
                 params.append("follow", value.textContent);
-                fetch("/Main/Follow", {
+                fetch("/Follow/FollowSomeone", {
                     method: "post",
                     headers: {
                         'Content-Type': "application/x-www-form-urlencoded",
@@ -74,8 +74,8 @@
         //
         window.email = "@User.Identity.Name";
     </script>
-    <script src="~/js/like.js"></script>
-    <script src="~/js/postPartialView.js"></script>
+    <script src="~/js/likes.js"></script>
+    <script src="~/js/postRenderPartialView.js"></script>
 </body>
 </html>
 

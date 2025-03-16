@@ -15,6 +15,7 @@ using BlogMVC.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BlogMVC.Controllers {
+
     [Authorize]
     public class MainController : Controller {
 
@@ -22,15 +23,18 @@ namespace BlogMVC.Controllers {
         readonly SeedingDB _seed;
         readonly UserManager<User> _userManager;
         readonly IFollowService _followService;
-        public MainController(IFollowService followService, SeedingDB seedingDB, IUserService userService, UserManager<User> userManager) {
+        readonly IPostService _postService;
+
+        public MainController(IFollowService followService, SeedingDB seedingDB, IUserService userService, UserManager<User> userManager, IPostService postService) {
             _userService = userService;
             _seed = seedingDB;
             _userManager = userManager;
             _followService = followService;
+            _postService = postService;
         }
 
         public async Task<IActionResult> PostReturn(int postId) {
-            Post post = await _userService.GetPostById(postId);
+            Post post = await _postService.GetPostById(postId);
             return PartialView("_PostView", post);
         }
 
@@ -48,19 +52,10 @@ namespace BlogMVC.Controllers {
                 ViewData["UserName"] = user.NickName;
             }
             await _seed.SeedAsync(_userManager);
-            var pageResult = await _userService.GetPostsByPage(page ?? 1);
+            var pageResult = await _postService.GetPostsByPage(page ?? 1);
             ViewBag.CurrentPage = pageResult.CurrentPage;
             ViewBag.TotalPages = pageResult.TotalPages;
             return View(pageResult.Items);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePost(int? id, string? owner) {
-            Post post = await _userService.GetPostById(id.Value);
-            await _userService.RemovePost(post);
-            return RedirectToAction(nameof(Index));
-
         }
 
         public async Task<IActionResult> UserViewByMail(string? email) {
@@ -91,90 +86,9 @@ namespace BlogMVC.Controllers {
             var viewmodel = new ErrorViewModel { Message = message, RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
             return View(viewmodel);
         }
-        public async Task<IActionResult> Create() {
-            if (!User.Identity.IsAuthenticated) {
-                return RedirectToAction("Index", "Account");
-            }
-            CreateViewModel viewModel = new CreateViewModel { Date = DateTime.Now, Owner = null };
-            return View(viewModel);
-        }
-
-        public async Task<IActionResult> Following() {
-            User u = await _userService.GetUserByMailNoTracking(User.Identity.Name);
-            List<FollowingModel> users = await _userService.GetFollowingByUserId(u.Id);
-            return View(users);
-        }
-
-        public async Task<IActionResult> Followed() {
-            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
-            User u = await _userService.GetUserByMailNoTracking(User.Identity.Name);
-            List<FollowedModel> users = await _userService.GetFollowedByUserId(u.Id);
-            return View(users);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(CreateViewModel model) {
-            string name = null;
-            if (User.Identity.IsAuthenticated) {
-                User user = await _userService.GetUserByMailNoTracking(User.Identity.Name);
-                name = user.NickName;
-            }
-            model.Date = DateTime.Now;
-            model.Owner = name;
-            ViewData["UserName"] = name;
-            if (ModelState.IsValid) {
-                await _userService.AddPost(model);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(model);
-
-        }
 
         public async Task<IActionResult> VerifyLogin() {
             return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LikePost(int postID, string email) {
-            try {
-                var authenticatedEmail = User?.Identity?.Name;
-                var result = await _userService.ToggleLike(postID, email, authenticatedEmail);
-                return Json(result);
-            } catch (UnauthorizedAccessException ex) {
-                return BadRequest(new { error = ex.Message });
-            } catch (KeyNotFoundException ex) {
-                return NotFound(new { error = ex.Message });
-            } catch (Exception ex) {
-                return StatusCode(500, new { error = ex.Message });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Follow(string email, string target, int follow) {
-            if (email != User?.Identity?.Name || target == email) {
-                return RedirectToAction(nameof(Error), new { message = "Invalid request" });
-            }
-            if (string.IsNullOrEmpty(email) || email == "@Email" || email == "undefined") {
-                return Json(new { error = "You need to be logged in to follow users" });
-            }
-            if (string.IsNullOrEmpty(target)) {
-                return Json(new { error = "Target user was not found" });
-            }
-            try {
-                int result = await _followService.ToggleFollowAsync(email, target);
-
-                if (result == 1) {
-                    follow++;
-                } else if (result == -1) {
-                    follow--;
-                }
-                return Json(new { followers = follow });
-            } catch (Exception ex) {
-                return RedirectToAction(nameof(Error), new { message = "An unexpected error occurred" });
-            }
         }
     }
 }

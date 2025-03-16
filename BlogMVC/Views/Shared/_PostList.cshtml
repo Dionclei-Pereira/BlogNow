@@ -23,7 +23,7 @@
 
                     @if (Model.Email != null && Model.Email == User.Identity.Name)
                     {
-                        <form action="@Url.Action("DeletePost", "Main")" method="post">
+                        <form action="@Url.Action("DeletePost", "Post")" method="post">
                             @Html.AntiForgeryToken()
                             <input type="hidden" name="owner" value="@Model.Email" />
                             <input type="hidden" name="id" value="@post.Id" />

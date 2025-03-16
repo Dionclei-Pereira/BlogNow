@@ -10,8 +10,11 @@
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     </head>
     <body>
-        <form action="Create" method="post">
+    <form action="Create" method="post">
         @Html.AntiForgeryToken()
+        @if(Model.err != null) {
+            <p class="text-danger">@Model.err</p>
+        }
         <div asp-validation-summary="All" class="text-danger"></div>
             <div>
                 <p asp-for="Message"></p>

@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace BlogMVC.Services {
     public class FollowService : IFollowService {
+
         private readonly BlogNowContext _context;
         private readonly IUserService _userService;
 
@@ -32,6 +33,21 @@ namespace BlogMVC.Services {
                 await _context.SaveChangesAsync();
                 return -1;
             }
+        }
+        public async Task<List<FollowingModel>> GetFollowingByUserId(string id) {
+            return await _context.Following.AsNoTracking()
+                .Where(x => x.UserId == id)
+                .ToListAsync();
+        }
+        public async Task<List<FollowedModel>> GetFollowedByUserId(string id) {
+            return await _context.Followed.AsNoTracking()
+                .Where(x => x.UserId == id)
+                .ToListAsync();
+        }
+
+        public async Task<string> GetUserId(string email) {
+            var user = await _context.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+            return user.Id;
         }
     }
 }

@@ -7,9 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
             let postId = heart.dataset.postid;
             const params = new URLSearchParams;
             const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-            params.append('PostId', postId);
-            params.append('Email', email);
-            fetch('/Main/LikePost', {
+            params.append('postId', postId);
+            params.append('email', email);
+            fetch('/Post/LikePost', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

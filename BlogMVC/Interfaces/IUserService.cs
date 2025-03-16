@@ -10,16 +10,8 @@ namespace BlogMVC.Interfaces {
         Task<User> GetUserWithPosts(string name);
         Task<User> GetUserWithAll(string name);
         Task<User> GetUserByMailNoTracking(string email);
-        Task<Post> GetPostById(int id);
         Task<User> GetUserByMail(string email);
         Task<User> GetUserWithFollow(string email);
         Task<User> GetUserWithAllAsNotTracking(string name);
-        Task<List<FollowingModel>> GetFollowingByUserId(string id);
-        Task<List<FollowedModel>> GetFollowedByUserId(string id);
-        Task<List<Post>> GetAllPosts();
-        Task<PageResult> GetPostsByPage(int page);
-        Task RemovePost(Post post);
-        Task AddPost(CreateViewModel model);
-        Task<object> ToggleLike(int postID, string email, string authenticatedEmail);
     }
 }

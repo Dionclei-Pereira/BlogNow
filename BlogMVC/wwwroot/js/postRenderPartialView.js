@@ -1,5 +1,5 @@
 ﻿document.addEventListener('DOMContentLoaded', () => {
-   document.addEventListener("click", (event) => {
+    document.addEventListener("click", (event) => {
         if (event.target.classList.contains("close-btn")) {
             const modalPost = event.target.closest(".modal-post");
             if (modalPost) {
@@ -9,7 +9,10 @@
    });
     const posts = document.querySelectorAll('.Comment');
     posts.forEach(post => {
-        post.addEventListener('click', () => {
+        post.addEventListener('click', (event) => {
+            if (event.target.classList.contains("delete-btn")) {
+                return;
+            }
             const postId = post.dataset.postid;
             const params = new URLSearchParams;
             params.append('PostId', postId);
