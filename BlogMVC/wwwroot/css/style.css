@@ -22,6 +22,50 @@
         color: white;
         transform: scale(1.05);
     }
+
+.post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.time {
+    padding-top: 10px;
+    margin-right: 10px;
+}
+
+.delete-btn {
+    padding: 5px 10px;
+    background-color: mediumpurple;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+    .delete-btn:hover {
+        background-color: rebeccapurple;
+    }
+
+.follow-btn {
+    background-color: mediumorchid;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+    .follow-btn:hover {
+        background-color: rebeccapurple;
+    }
+
+.time {
+    width: 40%;
+}
+
+.delete-btn {
+    background-color: mediumpurple;
+    color: white;
+    
+}
+
 .sidebar {
     position: fixed;
     top: 50px;
