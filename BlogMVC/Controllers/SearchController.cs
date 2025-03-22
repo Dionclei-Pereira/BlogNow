@@ -12,8 +12,9 @@ namespace BlogMVC.Controllers {
             _searchService = searchService;
         }
 
-        public async Task<IActionResult> User(string? text, uint? page){
-            page = page >= 0 ? page : 1;
+
+        public async Task<IActionResult> User(string text, uint? page){
+            page = page > 0 ? page : 1;
             if (text == null) RedirectToAction("Index", "Main");
             var model = await _searchService.GetUsersPage(text, page);
             ViewBag.CurrentPage = model.CurrentPage;
@@ -23,7 +24,7 @@ namespace BlogMVC.Controllers {
         }
 
         public async Task<IActionResult> Post(string? text, uint? page) {
-            page = page >= 0 ? page : 1;
+            page = page > 0 ? page : 1;
             if (text == null) RedirectToAction("Index", "Main");
             var model = await _searchService.GetPostsPage(text, page);
             ViewBag.CurrentPage = model.CurrentPage;

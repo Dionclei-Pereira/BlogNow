@@ -5,7 +5,6 @@
         <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     </head>
     <body>
-        
         @await Html.PartialAsync("_SearchNavBar", new BlogMVC.Models.ViewModels.SearchNavbarViewModel() {
             Tab = "post" 
         })
@@ -14,5 +13,6 @@
                 Posts = Model.Items
             })
         </div>
+    @await Html.PartialAsync("_Pages")
     </body>
 </html>

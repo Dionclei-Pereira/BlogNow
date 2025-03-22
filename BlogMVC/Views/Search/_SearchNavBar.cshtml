@@ -6,7 +6,7 @@
         Users
     </a>
     <a class="search-nav-item @(Model.Tab.Equals("post") ? "purple" : "black")"
-       href="@Url.Action("Post", null, new { text = ViewBag.text, page = ViewBag.CurrentPage = 1 })">
+       href="@Url.Action("Post", null, new { text = ViewBag.text, page = 1 })">
         Posts
     </a>
 </div>

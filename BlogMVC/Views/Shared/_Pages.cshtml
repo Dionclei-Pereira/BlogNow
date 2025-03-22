@@ -6,7 +6,7 @@
             @if (ViewBag.CurrentPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" href="@Url.Action(null, null, new { page = ViewBag.CurrentPage - 1 })" aria-label="Previous">
+                    <a class="page-link" href="@Url.Action(null, null, new { text = ViewBag.text, page = ViewBag.CurrentPage - 1 })" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -20,13 +20,13 @@
             @for (int i = 1; i <= ViewBag.TotalPages; i++)
             {
                 <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                    <a class="page-link" href="@Url.Action(null, null, new { page = i })">@i</a>
+                    <a class="page-link" href="@Url.Action(null, null, new { text = ViewBag.text, page = i })">@i</a>
                 </li>
             }
             @if (ViewBag.CurrentPage < ViewBag.TotalPages)
             {
                 <li class="page-item">
-                    <a class="page-link" href="@Url.Action(null, null, new { page = ViewBag.CurrentPage + 1 })" aria-label="Next">
+                    <a class="page-link" href="@Url.Action(null, null, new { text = ViewBag.text, page = ViewBag.CurrentPage + 1 })" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

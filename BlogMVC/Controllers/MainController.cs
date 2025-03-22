@@ -44,7 +44,7 @@ namespace BlogMVC.Controllers {
             Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0";
             Response.Headers["Pragma"] = "no-cache";
             Response.Headers["Expires"] = "-1";
-            page = page >= 0 ? page : 1;
+            page = page > 0 ? page : 1;
             try {
                 if (User.Identity.IsAuthenticated) {
                     User user = await _userService.GetUserByMail(User.Identity.Name);
@@ -82,7 +82,7 @@ namespace BlogMVC.Controllers {
                 if (user == null) {
                     return RedirectToAction("Logout", "Account");
                 }
-                page = page >= 0 ? page : 1;
+                page = page > 0 ? page : 1;
                 var target = await _userService.GetUserAsNotTracking(id);
                 var pageResult = await _postService.GetUserPostsByPage(target.NickName, page ?? 1);
                 pageResult.BlogNowUser = target;
