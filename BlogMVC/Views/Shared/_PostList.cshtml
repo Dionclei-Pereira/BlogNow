@@ -6,7 +6,7 @@
     {
         <div class="Post" data-postid="@post.Id">
             <div class="User">
-                <a class="user" asp-action="UserView" asp-route-id="@post.Owner">@Html.DisplayFor(modelItem => post.Owner)</a>
+                <a class="user" asp-action="UserView" asp-controller="Main" asp-route-id="@post.Owner">@Html.DisplayFor(modelItem => post.Owner)</a>
             </div>
             <div class="Comment" data-postid="@post.Id">
                 <p>@post.GetParsedMessage()</p>

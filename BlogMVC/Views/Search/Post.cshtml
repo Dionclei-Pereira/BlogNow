@@ -5,6 +5,8 @@
         <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     </head>
     <body>
+    <div class="container-post"></div>
+        @Html.AntiForgeryToken()
         @await Html.PartialAsync("_SearchNavBar", new BlogMVC.Models.ViewModels.SearchNavbarViewModel() {
             Tab = "post" 
         })
@@ -14,5 +16,10 @@
             })
         </div>
     @await Html.PartialAsync("_Pages")
+    <script>
+        window.email = "@User.Identity.Name";
+    </script>
+    <script src="~/js/likes.js"></script>
+    <script src="~/js/postRenderPartialView.js"></script>
     </body>
 </html>
