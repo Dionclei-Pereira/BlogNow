@@ -9,15 +9,13 @@
 <body>
     @Html.AntiForgeryToken();
     @await Html.PartialAsync("_SidebarMenu")
-    <br />
-    <br />
-    <br />
-    <h1>@ViewData["Title"]</h1>
-    <div class="container-post"></div>
-    @await Html.PartialAsync("_PostList", new BlogMVC.Models.ViewModels.PostListViewModel() {
-        Posts = Model,
-        Email = null
-    })
+    <div class="container-skip-50"></div>
+    <h1>BlogNow</h1>
+    @await Html.PartialAsync("_PostList", new BlogMVC.Models.ViewModels.PostListViewModel()
+{
+    Posts = Model,
+    Email = null
+})
     <script>
         window.email = "@User.Identity.Name";
     </script>

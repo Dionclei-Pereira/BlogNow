@@ -16,12 +16,25 @@ namespace BlogMVC.Services {
         public async Task<List<Post>> GetAllPosts() {
             return await _context.Posts.Include(p => p.likedpeople).AsNoTracking().OrderByDescending(obj => obj.Date).ToListAsync();
         }
-        public async Task<PageResult> GetPostsByPage(int page) {
-            int skip = (page - 1) * 10;
-            int totalItems = await _context.Posts.CountAsync();
-            int totalPages = (int)Math.Ceiling((double)totalItems / 10);
-            List<Post> items = await _context.Posts.Include(p => p.likedpeople).AsNoTracking().OrderByDescending(obj => obj.Date).Skip(skip).Take(10).ToListAsync();
-            return new PageResult {
+
+        public async Task<PageResult<Post>> GetUserPostsByPage(string name, uint page) {
+            uint skip = (page - 1) * 10;
+            uint totalItems = (uint)await _context.Posts.Where(p => p.Owner == name).CountAsync();
+            uint totalPages = (uint)Math.Ceiling((double)totalItems / 10);
+            List<Post> items = await _context.Posts.Where(p => p.Owner == name).AsNoTracking().OrderByDescending(obj => obj.Date).Skip((int)skip).Take(10).ToListAsync();
+            return new PageResult<Post>() {
+                Items = items,
+                CurrentPage = page,
+                TotalPages = totalPages,
+            };
+        }
+
+        public async Task<PageResult<Post>> GetPostsByPage(uint page) {
+            uint skip = (page - 1) * 10;
+            uint totalItems = (uint)await _context.Posts.CountAsync();
+            uint totalPages = (uint)Math.Ceiling((double)totalItems / 10);
+            List<Post> items = await _context.Posts.Include(p => p.likedpeople).AsNoTracking().OrderByDescending(obj => obj.Date).Skip((int)skip).Take(10).ToListAsync();
+            return new PageResult<Post> {
                 Items = items,
                 CurrentPage = page,
                 TotalPages = totalPages

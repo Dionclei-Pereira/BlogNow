@@ -15,7 +15,7 @@ namespace BlogMVC.Controllers {
             _followService = followService;
         }
 
-        public IActionResult Index() {
+        public async Task<IActionResult> Index() {
             return RedirectToAction("Following");
         }
 

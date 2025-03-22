@@ -1,0 +1,18 @@
+﻿@model BlogMVC.Models.ViewModels.PageResult<Post>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    </head>
+    <body>
+        
+        @await Html.PartialAsync("_SearchNavBar", new BlogMVC.Models.ViewModels.SearchNavbarViewModel() {
+            Tab = "post" 
+        })
+        <div class="container-skip-125">
+            @await Html.PartialAsync("_PostList", new BlogMVC.Models.ViewModels.PostListViewModel() {
+                Posts = Model.Items
+            })
+        </div>
+    </body>
+</html>

@@ -15,7 +15,7 @@ namespace BlogMVC.Controllers {
             _userService = userService;
         }
 
-        public IActionResult Index(string? error) {
+        public async Task<IActionResult> Index(string? error) {
             if (!User.Identity.IsAuthenticated) {
                 return RedirectToAction("Index", "Account");
             }

@@ -26,6 +26,14 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Main" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    <div class="search-box">
+                        <form asp-action="User" asp-controller="Search" method="get">
+                            <input class="searchbar" placeholder="Search" name="text" />
+                            <button  type="submit">
+                                <span class="search-icon">&#128269;</span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
                     @{
                         if (User.Identity.IsAuthenticated)
@@ -52,5 +60,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

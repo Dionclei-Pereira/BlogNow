@@ -13,5 +13,6 @@ namespace BlogMVC.Services.Interfaces {
         Task<User> GetUserByMail(string email);
         Task<User> GetUserWithFollow(string email);
         Task<User> GetUserWithAllAsNotTracking(string name);
+        Task<User> GetUserAsNotTracking(string name);
     }
 }

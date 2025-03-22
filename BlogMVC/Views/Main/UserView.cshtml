@@ -1,33 +1,29 @@
-﻿@model BlogMVC.Models.User;
+﻿@model BlogMVC.Models.ViewModels.PageResult<Post>;
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="container-post"></div>
-    @Html.AntiForgeryToken();
+    <div class="container-skip-50"></div>
+    @Html.AntiForgeryToken()
     @await Html.PartialAsync("_SidebarMenu")
-    <br />
-    <br />
-    <br />
     @{
         string Email = "";
         if (Model != null)
         {
-            ViewData["Title"] = Model.NickName;
+            ViewData["Title"] = ViewData["UserName"];
             Email = User.Identity.Name;
-            Model.Posts = Model.Posts.OrderByDescending(d => d.Date).ToList();
-        }
+            Model.Items = Model.Items.OrderByDescending(d => d.Date).ToList();        }
     }
     <h1>@ViewData["Title"]</h1>
-    <h6>@Model.UserName</h6>
+    <h6>@Model.BlogNowUser.UserName</h6>
     <p>
         Followers:
-        <span class="follow-number">@Model.Followed.Count()</span>
+        <span class="follow-number">@Model.BlogNowUser.Followed.Count()</span>
         @if (User.Identity.IsAuthenticated)
         {
-            if (Model.Email != User.Identity.Name && User.Identity.Name != null)
+            if (Model.BlogNowUser.Email != User.Identity.Name && User.Identity.Name != null)
             {
                 <button class="follow-btn">Follow</button>
             }
@@ -36,9 +32,10 @@
     <br />
     @await Html.PartialAsync("_PostList", new BlogMVC.Models.ViewModels.PostListViewModel()
 {
-    Posts = Model.Posts,
-    Email = Model.Email
+    Posts = Model.Items,
+    Email = Model.BlogNowUser.Email
 })
+@await Html.PartialAsync("_Pages")
     <script>
         //follow
         document.addEventListener("DOMContentLoaded", () => {
@@ -48,7 +45,7 @@
                 const params = new URLSearchParams();
                 const token = document.querySelector('input[name = "__RequestVerificationToken"]').value;
                 params.append("email", "@User.Identity.Name");
-                params.append("target", "@Model.Email");
+                params.append("target", "@Model.BlogNowUser.Email");
                 params.append("follow", value.textContent);
                 fetch("/Follow/FollowSomeone", {
                     method: "post",

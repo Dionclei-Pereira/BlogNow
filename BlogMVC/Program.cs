@@ -15,6 +15,7 @@ builder.Services.AddScoped<SeedingDB>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFollowService, FollowService>();
 builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<ISearchService, SearchService>();
 builder.Services.AddIdentity<User, IdentityRole>(options => {
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false; 

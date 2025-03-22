@@ -1,0 +1,10 @@
+﻿@model List<BlogMVC.Models.User>
+
+   @foreach(User user in Model) {
+       <div class="user-container">
+            <a class="user" asp-action="UserView" asp-controller="Main" asp-route-id="@user.NickName">@user.NickName</a>
+           <br />
+           <h6>@user.Email</h6>
+           <h6>Followers: @user.Followed.Count | Following: @user.Following.Count</h6>
+       </div>
+   }

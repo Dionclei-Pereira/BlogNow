@@ -40,22 +40,28 @@ namespace BlogMVC.Controllers {
 
         [AllowAnonymous]
         [Route("/Main/Index/{page?}")]
-        public async Task<IActionResult> Index(int? page) {
+        public async Task<IActionResult> Index(uint? page) {
             Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0";
             Response.Headers["Pragma"] = "no-cache";
             Response.Headers["Expires"] = "-1";
-            if (User.Identity.IsAuthenticated) {
-                User user = await _userService.GetUserByMail(User.Identity.Name);
-                if (user == null) {
-                    return RedirectToAction("Logout", "Account");
+            page = page >= 0 ? page : 1;
+            try {
+                if (User.Identity.IsAuthenticated) {
+                    User user = await _userService.GetUserByMail(User.Identity.Name);
+                    if (user == null) {
+                        return RedirectToAction("Logout", "Account");
+                    }
+                    ViewData["UserName"] = user.NickName;
                 }
-                ViewData["UserName"] = user.NickName;
+                await _seed.SeedAsync(_userManager);
+                var pageResult = await _postService.GetPostsByPage(page ?? 1);
+                ViewBag.CurrentPage = pageResult.CurrentPage;
+                ViewBag.TotalPages = pageResult.TotalPages;
+                return View(pageResult.Items);
+            } catch (Exception ex) {
+                return RedirectToAction(nameof(Error), new { message = ex.Message});
             }
-            await _seed.SeedAsync(_userManager);
-            var pageResult = await _postService.GetPostsByPage(page ?? 1);
-            ViewBag.CurrentPage = pageResult.CurrentPage;
-            ViewBag.TotalPages = pageResult.TotalPages;
-            return View(pageResult.Items);
+
         }
 
         public async Task<IActionResult> UserViewByMail(string? email) {
@@ -70,19 +76,25 @@ namespace BlogMVC.Controllers {
             }
         }
 
-        public async Task<IActionResult> UserView(string? id) {
+        public async Task<IActionResult> UserView(string? id, uint? page) {
             try {
-                User user = await _userService.GetUserByMail(User.Identity.Name);
+                User user = await _userService.GetUserByMailNoTracking(User.Identity.Name);
                 if (user == null) {
                     return RedirectToAction("Logout", "Account");
                 }
-                ViewData["UserName"] = user.NickName;
-                return View(await _userService.GetUserWithAllAsNotTracking(id));
+                page = page >= 0 ? page : 1;
+                var target = await _userService.GetUserAsNotTracking(id);
+                var pageResult = await _postService.GetUserPostsByPage(target.NickName, page ?? 1);
+                pageResult.BlogNowUser = target;
+                ViewData["UserName"] = target.NickName;
+                ViewBag.CurrentPage = pageResult.CurrentPage;
+                ViewBag.TotalPages = pageResult.TotalPages;
+                return View(pageResult);
             } catch (Exception ex) {
                 return RedirectToAction(nameof(Error), new { message = ex.Message });
             }
         }
-        public async Task<IActionResult> Error(string message) {
+        public async Task<IActionResult> Error(string? message) {
             var viewmodel = new ErrorViewModel { Message = message, RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
             return View(viewmodel);
         }

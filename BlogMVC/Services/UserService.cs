@@ -49,5 +49,9 @@ namespace BlogMVC.Services {
         public async Task<User> GetUserWithFollow(string email) {
             return await _context.Users.Where(u => u.Email == email).Include(f => f.Followed).Include(f => f.Following).FirstOrDefaultAsync();
         }
+
+        public async Task<User> GetUserAsNotTracking(string name) {
+            return await _context.Users.Where(u => u.NickName == name).AsNoTracking().FirstOrDefaultAsync();
+        }
     }
 }

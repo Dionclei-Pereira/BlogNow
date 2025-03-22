@@ -1,11 +1,10 @@
 ﻿namespace BlogMVC.Models.ViewModels {
-    public class PageResult {
-        public List<Post> Items { get; set; } 
-        public int CurrentPage { get; set; }
-        public int TotalPages { get; set; }
+    public class PageResult<T> {
+        public List<T> Items { get; set; } = new List<T>();
+        public uint CurrentPage { get; set; }
+        public uint TotalPages { get; set; }
+        public User BlogNowUser{ get; set; } = new User();
 
-        public PageResult() {
-            Items = new List<Post>();
-        }
-    }
+
+}
 }

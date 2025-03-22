@@ -34,11 +34,13 @@ namespace BlogMVC.Services {
                 return -1;
             }
         }
+
         public async Task<List<FollowingModel>> GetFollowingByUserId(string id) {
             return await _context.Following.AsNoTracking()
                 .Where(x => x.UserId == id)
                 .ToListAsync();
         }
+
         public async Task<List<FollowedModel>> GetFollowedByUserId(string id) {
             return await _context.Followed.AsNoTracking()
                 .Where(x => x.UserId == id)

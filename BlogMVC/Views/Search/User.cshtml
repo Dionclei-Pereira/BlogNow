@@ -1,0 +1,16 @@
+﻿@model BlogMVC.Models.ViewModels.PageResult<User>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    </head>
+    <body>
+
+        @await Html.PartialAsync("_SearchNavBar", new BlogMVC.Models.ViewModels.SearchNavbarViewModel() {
+            Tab = "user"
+        })
+        <div class="container-skip-125">
+            @await Html.PartialAsync("_UserList", Model.Items)
+    </div>
+    </body>
+</html>

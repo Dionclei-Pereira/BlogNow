@@ -3,10 +3,10 @@
 <div class="modal-post">
     <div class="modal-content">
         <div class="modal-header">
-            <button class="close-btn">X</button>
             <a class="modal-user" asp-action="UserView" asp-route-id="@Model.Owner">
                 @Html.DisplayFor(modelItem => Model.Owner)
             </a>
+            <button class="close-btn">X</button>
         </div>
         <div class="modal-body">
             <p class="modal-message">@Html.DisplayFor(ModelItem => Model.Message)</p>
@@ -20,6 +20,7 @@
 <style>
     .close-btn {
         background-color: mediumpurple;
+        right: 10px;
         color: white;
     }
     .modal-info {
