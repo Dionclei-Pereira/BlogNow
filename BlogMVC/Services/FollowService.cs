@@ -35,16 +35,26 @@ namespace BlogMVC.Services {
             }
         }
 
-        public async Task<List<FollowingModel>> GetFollowingByUserId(string id) {
-            return await _context.Following.AsNoTracking()
+        public async Task<List<User>> GetFollowingByUserId(string id) {
+            List<FollowingModel> list = await _context.Following.AsNoTracking()
                 .Where(x => x.UserId == id)
                 .ToListAsync();
+            List<User> users = new List<User>();
+            foreach(FollowingModel model in list) {
+                users.Add(await _userService.GetUserWithFollow(model.OwnerId));
+            }
+            return users;
         }
 
-        public async Task<List<FollowedModel>> GetFollowedByUserId(string id) {
-            return await _context.Followed.AsNoTracking()
+        public async Task<List<User>> GetFollowedByUserId(string id) {
+            List<FollowedModel> list = await _context.Followed.AsNoTracking()
                 .Where(x => x.UserId == id)
                 .ToListAsync();
+            List<User> users = new List<User>();
+            foreach (FollowedModel model in list) {
+                users.Add(await _userService.GetUserWithFollow(model.OwnerId));
+            }
+            return users;
         }
 
         public async Task<string> GetUserId(string email) {
